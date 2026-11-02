@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { siteConfig } from "@/config/site";
 
 type Language = "ar" | "en";
 
@@ -43,6 +44,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const t = (ar: string, en: string) => (language === "ar" ? ar : en);
 
   const isRTL = language === "ar";
+
+  useEffect(() => {
+    document.title = language === "ar" ? siteConfig.name.ar : siteConfig.name.en;
+  }, [language]);
 
   return (
     <LanguageContext.Provider value={{ language, toggleLanguage, t, isRTL }}>

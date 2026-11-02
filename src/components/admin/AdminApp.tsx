@@ -12,9 +12,9 @@ import type { Session } from "@supabase/supabase-js";
 import { ResourceEditor } from "./ResourceEditor";
 import { resourceMap, resources } from "./resources";
 import {
-  LayoutDashboard, Newspaper, HandHeart, Image as ImageIcon, BookOpen, Quote,
+  LayoutDashboard, Newspaper, HandHeart, Image as ImageIcon, Images, BookOpen, Quote,
   MessageSquareQuote, ChartColumn, Settings, Inbox, LogOut, Loader2, Globe, LockKeyhole,
-  Table2, Trash2,
+  Table2, Trash2, Users,
 } from "lucide-react";
 
 const sectionIcons: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -26,6 +26,9 @@ const sectionIcons: Record<string, React.ComponentType<{ className?: string }>> 
   stories: Quote,
   testimonials: MessageSquareQuote,
   impact: ChartColumn,
+  team: Users,
+  "hero-images": Images,
+  "hero-stats": ChartColumn,
   messages: Inbox,
   settings: Settings,
 };
@@ -121,6 +124,16 @@ function SettingsForm() {
         address_en: String(load.data.address_en ?? ""),
         donation_iban: String(load.data.donation_iban ?? ""),
         donation_click_link: String(load.data.donation_click_link ?? ""),
+        hero_badge_ar: String(load.data.hero_badge_ar ?? ""),
+        hero_badge_en: String(load.data.hero_badge_en ?? ""),
+        hero_title_ar: String(load.data.hero_title_ar ?? ""),
+        hero_title_accent_ar: String(load.data.hero_title_accent_ar ?? ""),
+        hero_title_line2_ar: String(load.data.hero_title_line2_ar ?? ""),
+        hero_title_en: String(load.data.hero_title_en ?? ""),
+        hero_title_accent_en: String(load.data.hero_title_accent_en ?? ""),
+        hero_title_line2_en: String(load.data.hero_title_line2_en ?? ""),
+        hero_subtitle_ar: String(load.data.hero_subtitle_ar ?? ""),
+        hero_subtitle_en: String(load.data.hero_subtitle_en ?? ""),
       });
     }
   }, [load.data]);
@@ -150,6 +163,16 @@ function SettingsForm() {
     { key: "address_en", labelAr: "العنوان (إنجليزي)", labelEn: "Address (EN)" },
     { key: "donation_iban", labelAr: "رقم الآيبان", labelEn: "IBAN", ltr: true },
     { key: "donation_click_link", labelAr: "رابط التبرع السريع (كليك)", labelEn: "Quick pay link", ltr: true },
+    { key: "hero_badge_ar", labelAr: "الشارة (عربي)", labelEn: "Badge (AR)" },
+    { key: "hero_badge_en", labelAr: "الشارة (إنجليزي)", labelEn: "Badge (EN)", ltr: true },
+    { key: "hero_title_ar", labelAr: "العنوان الضخم (عربي)", labelEn: "Main title (AR)" },
+    { key: "hero_title_accent_ar", labelAr: "الكلمة الذهبية (عربي)", labelEn: "Golden word (AR)" },
+    { key: "hero_title_line2_ar", labelAr: "سطر العنوان الثاني (عربي)", labelEn: "Title line 2 (AR)" },
+    { key: "hero_title_en", labelAr: "العنوان الضخم (إنجليزي)", labelEn: "Main title (EN)", ltr: true },
+    { key: "hero_title_accent_en", labelAr: "الكلمة الذهبية (إنجليزي)", labelEn: "Golden word (EN)", ltr: true },
+    { key: "hero_title_line2_en", labelAr: "سطر العنوان الثاني (إنجليزي)", labelEn: "Title line 2 (EN)", ltr: true },
+    { key: "hero_subtitle_ar", labelAr: "النص التعريفي (عربي)", labelEn: "Subtitle (AR)" },
+    { key: "hero_subtitle_en", labelAr: "النص التعريفي (إنجليزي)", labelEn: "Subtitle (EN)", ltr: true },
   ];
   return (
     <div className="max-w-2xl space-y-4">

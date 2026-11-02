@@ -25,7 +25,7 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
     queryKey: ["admin", resource.table],
     queryFn: async () => {
       const sb = safeSupabase()!;
-      const { data, error } = await sb.from(resource.table).select("*").order("id");
+      const { data, error } = await sb.from(resource.table).select("*").order(resource.order ?? "id");
       if (error) throw error;
       return (data ?? []) as unknown as AdminRow[];
     },

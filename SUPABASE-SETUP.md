@@ -118,6 +118,38 @@ create table if not exists public.messages (
   created_at timestamptz default now()
 );
 
+create table if not exists public.team_members (
+  id bigint generated always as identity primary key,
+  name_ar text default '',
+  name_en text default '',
+  role_ar text default '',
+  role_en text default '',
+  bio_ar text default '',
+  bio_en text default '',
+  category text default 'مجلس الإدارة',
+  photo_url text,
+  sort_index int default 0,
+  created_at timestamptz default now()
+);
+
+create table if not exists public.hero_images (
+  id bigint generated always as identity primary key,
+  image_url text,
+  alt_ar text default '',
+  alt_en text default '',
+  sort_index int default 0,
+  created_at timestamptz default now()
+);
+
+create table if not exists public.hero_stats (
+  id bigint generated always as identity primary key,
+  value text default '',
+  label_ar text default '',
+  label_en text default '',
+  sort_index int default 0,
+  created_at timestamptz default now()
+);
+
 create table if not exists public.site_settings (
   id int primary key default 1 check (id = 1),
   contact_phone text default '+966500000000',
@@ -127,6 +159,19 @@ create table if not exists public.site_settings (
   address_en text default 'Saudi Arabia',
   donation_iban text default 'SA00 0000 0000 0000 0000 0000',
   donation_click_link text default '',
+  donation_paypal_link text default '',
+  donation_usdt_address text default '',
+  donation_usdt_network text default 'TRC20',
+  hero_badge_ar text default 'مؤسسة ثقافية وإنسانية',
+  hero_badge_en text default 'Cultural & Humanitarian Foundation',
+  hero_title_ar text default 'معاً نبني',
+  hero_title_accent_ar text default 'مستقبلاً',
+  hero_title_line2_ar text default 'أفضل للجميع',
+  hero_title_en text default 'Together We Build',
+  hero_title_accent_en text default 'a Better',
+  hero_title_line2_en text default 'Future for All',
+  hero_subtitle_ar text default '',
+  hero_subtitle_en text default '',
   updated_at timestamptz default now()
 );
 
@@ -140,6 +185,9 @@ alter table public.books enable row level security;
 alter table public.stories enable row level security;
 alter table public.testimonials enable row level security;
 alter table public.impact_stats enable row level security;
+alter table public.team_members enable row level security;
+alter table public.hero_images enable row level security;
+alter table public.hero_stats enable row level security;
 alter table public.messages enable row level security;
 alter table public.site_settings enable row level security;
 
@@ -150,6 +198,9 @@ create policy "content public read" on public.books for select using (true);
 create policy "content public read" on public.stories for select using (true);
 create policy "content public read" on public.testimonials for select using (true);
 create policy "content public read" on public.impact_stats for select using (true);
+create policy "content public read" on public.team_members for select using (true);
+create policy "content public read" on public.hero_images for select using (true);
+create policy "content public read" on public.hero_stats for select using (true);
 create policy "content public read" on public.site_settings for select using (true);
 
 create policy "content admin all" on public.news for all to authenticated using (true) with check (true);
@@ -159,6 +210,9 @@ create policy "content admin all" on public.books for all to authenticated using
 create policy "content admin all" on public.stories for all to authenticated using (true) with check (true);
 create policy "content admin all" on public.testimonials for all to authenticated using (true) with check (true);
 create policy "content admin all" on public.impact_stats for all to authenticated using (true) with check (true);
+create policy "content admin all" on public.team_members for all to authenticated using (true) with check (true);
+create policy "content admin all" on public.hero_images for all to authenticated using (true) with check (true);
+create policy "content admin all" on public.hero_stats for all to authenticated using (true) with check (true);
 create policy "content admin all" on public.site_settings for all to authenticated using (true) with check (true);
 
 create policy "messages anon insert" on public.messages for insert to anon with check (true);

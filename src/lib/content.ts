@@ -1,13 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { heroImage } from "@/lib/media";
 import fallbackProjectImg from "@/assets/project-bakery.jpg";
+import heroWebp from "@/assets/hero.webp";
+import heroSeaWebp from "@/assets/hero-sea.webp";
+import heroWashingWebp from "@/assets/hero-washing.webp";
+import heroJabaliyaWebp from "@/assets/hero-jabaliya.webp";
+import heroMaisWebp from "@/assets/hero-mais.webp";
+import heroMaisFatherWebp from "@/assets/hero-mais-father.webp";
+import heroAdelFamilyWebp from "@/assets/hero-adel-family.webp";
+import heroAdelInjuryWebp from "@/assets/hero-adel-injury.webp";
 import { isSupabaseConfigured, safeSupabase } from "@/lib/supabase";
 import { siteConfig } from "@/config/site";
 
 export type AdminRow = { id: number } & Record<string, string | number | boolean | null>;
 
 export interface NewsItem { id: number; titleAr: string; titleEn: string; excerptAr: string; excerptEn: string; categoryAr: string; categoryEn: string; date: string; }
-
 export interface ProjectCard { id: string; titleAr: string; titleEn: string; descAr: string; descEn: string; beneficiariesAr: string; beneficiariesEn: string; image: string; }
 export interface ProjectDetail { id: string; titleAr: string; titleEn: string; descAr: string; descEn: string; image: string; stats: { labelAr: string; labelEn: string; value: string }[]; }
 
@@ -16,7 +23,10 @@ export interface BookItem { id: number; titleAr: string; titleEn: string; descAr
 export interface StoryItem { id: number; titleAr: string; titleEn: string; excerptAr: string; excerptEn: string; }
 export interface TestimonialItem { id: number; contentAr: string; contentEn: string; nameAr: string; nameEn: string; roleAr: string; roleEn: string; locationAr: string; locationEn: string; }
 export interface ImpactItem { id: number; icon: string; value: string; labelAr: string; labelEn: string; descAr: string; descEn: string; }
-export interface SettingsValues { contactPhone: string; contactPhoneDisplay: string; contactEmail: string; addressAr: string; addressEn: string; donationIban: string; donationClickLink: string; donationPayPalLink: string; donationUsdtAddress: string; donationUsdtNetwork: string; }
+export interface TeamMember { id: number; nameAr: string; nameEn: string; roleAr: string; roleEn: string; bioAr: string; bioEn: string; category: string; photo: string; sortIndex: number; }
+export interface HeroImage { id: number; src: string; altAr: string; altEn: string; }
+export interface HeroStat { id: number; value: string; labelAr: string; labelEn: string; }
+export interface SettingsValues { contactPhone: string; contactPhoneDisplay: string; contactEmail: string; addressAr: string; addressEn: string; donationIban: string; donationClickLink: string; donationPayPalLink: string; donationUsdtAddress: string; donationUsdtNetwork: string; heroBadgeAr: string; heroBadgeEn: string; heroTitleAr: string; heroTitleAccentAr: string; heroTitleLine2Ar: string; heroTitleEn: string; heroTitleAccentEn: string; heroTitleLine2En: string; heroSubtitleAr: string; heroSubtitleEn: string; }
 
 const nf = (row: AdminRow, key: string): string => String(row[key] ?? "");
 
@@ -38,7 +48,7 @@ function useContent<T>(shape: ContentShape<T>): T[] {
         .from(shape.table)
         .select("*")
         .order(shape.order ?? "id");
-      if (error || !data) return shape.fallback;
+      if (error || !data || data.length === 0) return shape.fallback;
       return (data as unknown as AdminRow[]).map(shape.map);
     },
   });
@@ -163,7 +173,42 @@ const settingsFallback: SettingsValues = {
   donationPayPalLink: siteConfig.donation.payPalLink,
   donationUsdtAddress: siteConfig.donation.usdtAddress,
   donationUsdtNetwork: siteConfig.donation.usdtNetwork,
+  heroBadgeAr: "مؤسسة ثقافية وإنسانية",
+  heroBadgeEn: "Cultural & Humanitarian Foundation",
+  heroTitleAr: "معاً نبني",
+  heroTitleAccentAr: "مستقبلاً",
+  heroTitleLine2Ar: "أفضل للجميع",
+  heroTitleEn: "Together We Build",
+  heroTitleAccentEn: "a Better",
+  heroTitleLine2En: "Future for All",
+  heroSubtitleAr: "نسعى في مؤسسة جسور السلام الفلسطينية لتقديم يد العون للمحتاجين والأيتام من خلال مشاريع إنسانية مستدامة تحقق الأثر الإيجابي في المجتمع",
+  heroSubtitleEn: "At the Palestinian Bridges of Peace Foundation, we strive to extend a helping hand to those in need and orphans through sustainable humanitarian projects that create a positive impact in the community",
 };
+
+const teamFallback: TeamMember[] = [
+  { id: 1, nameAr: "د. أحمد العتيبي", nameEn: "Dr. Ahmed Al-Otaibi", roleAr: "رئيس مجلس الإدارة", roleEn: "Board Chairman", bioAr: "خبرة تزيد عن 20 عاماً في العمل الخيري والتنموي", bioEn: "Over 20 years of experience in charity and development work", category: "مجلس الإدارة", photo: "", sortIndex: 1 },
+  { id: 2, nameAr: "أ. فاطمة الشمري", nameEn: "Fatima Al-Shammari", roleAr: "نائب الرئيس", roleEn: "Vice Chairman", bioAr: "متخصصة في إدارة المشاريع الإنسانية والتطوعية", bioEn: "Specialist in humanitarian and volunteer project management", category: "مجلس الإدارة", photo: "", sortIndex: 2 },
+  { id: 3, nameAr: "م. خالد المالكي", nameEn: "Eng. Khaled Al-Malki", roleAr: "المدير التنفيذي", roleEn: "Executive Director", bioAr: "خبير في التخطيط الاستراتيجي وإدارة المؤسسات غير الربحية", bioEn: "Expert in strategic planning and nonprofit management", category: "مجلس الإدارة", photo: "", sortIndex: 3 },
+  { id: 4, nameAr: "د. نورة القحطاني", nameEn: "Dr. Noura Al-Qahtani", roleAr: "مستشار", roleEn: "Advisor", bioAr: "أكاديمية ومتخصصة في الدراسات الاجتماعية", bioEn: "Academic specialized in social studies", category: "مجلس الإدارة", photo: "", sortIndex: 4 },
+];
+
+const heroImagesFallback: HeroImage[] = [
+  { id: 1, src: heroWebp, altAr: "أطفال في منطقة نزوح ينتظرون بجرّات الماء", altEn: "Children with water jugs in a displacement area" },
+  { id: 2, src: heroSeaWebp, altAr: "أطفال يضحكون على شاطئ البحر", altEn: "Children laughing and playing on the seashore" },
+  { id: 3, src: heroWashingWebp, altAr: "سيدة تغسل ملابس أسرتها بين الأنقاض", altEn: "A woman washing her family's laundry amid rubble" },
+  { id: 4, src: heroJabaliyaWebp, altAr: "مشهد واسع لمخيم جبليا بعد الدمار", altEn: "A wide view of Jabaliya camp after destruction" },
+  { id: 5, src: heroMaisWebp, altAr: "طفلة من أهالي جبليا قبل منزلٍ متهدم", altEn: "A girl from Jabaliya in front of a half-destroyed home" },
+  { id: 6, src: heroMaisFatherWebp, altAr: "بنت مع والدها يطبخ على نار بين الأنقاض", altEn: "A girl with her father cooking over a fire amid rubble" },
+  { id: 7, src: heroAdelFamilyWebp, altAr: "أسرة من جبليا أمام منزلها المدمّر", altEn: "A family from Jabaliya stands before their destroyed home" },
+  { id: 8, src: heroAdelInjuryWebp, altAr: "قدم طفل مجروح بضماد بين الأنقاض", altEn: "An injured child's bandaged foot amid rubble" },
+];
+
+const heroStatsFallback: HeroStat[] = [
+  { id: 1, value: "10,000+", labelAr: "مستفيد", labelEn: "Beneficiaries" },
+  { id: 2, value: "15+", labelAr: "مشروع", labelEn: "Projects" },
+  { id: 3, value: "50+", labelAr: "متطوع", labelEn: "Volunteers" },
+  { id: 4, value: "5", labelAr: "سنوات خدمة", labelEn: "Years" },
+];
 
 export function useNews(): NewsItem[] {
   return useContent<NewsItem>({
@@ -305,6 +350,54 @@ export function useImpact(): ImpactItem[] {
   });
 }
 
+export function useTeamMembers(): TeamMember[] {
+  return useContent<TeamMember>({
+    table: "team_members",
+    order: "sort_index",
+    map: (row) => ({
+      id: row.id,
+      nameAr: nf(row, "name_ar"),
+      nameEn: nf(row, "name_en"),
+      roleAr: nf(row, "role_ar"),
+      roleEn: nf(row, "role_en"),
+      bioAr: nf(row, "bio_ar"),
+      bioEn: nf(row, "bio_en"),
+      category: nf(row, "category") || "مجلس الإدارة",
+      photo: nf(row, "photo_url"),
+      sortIndex: Number(row["sort_index"] ?? 0),
+    }),
+    fallback: teamFallback,
+  });
+}
+
+export function useHeroImages(): HeroImage[] {
+  return useContent<HeroImage>({
+    table: "hero_images",
+    order: "sort_index",
+    map: (row) => ({
+      id: row.id,
+      src: nf(row, "image_url") || heroWebp,
+      altAr: nf(row, "alt_ar"),
+      altEn: nf(row, "alt_en"),
+    }),
+    fallback: heroImagesFallback,
+  });
+}
+
+export function useHeroStats(): HeroStat[] {
+  return useContent<HeroStat>({
+    table: "hero_stats",
+    order: "sort_index",
+    map: (row) => ({
+      id: row.id,
+      value: nf(row, "value"),
+      labelAr: nf(row, "label_ar"),
+      labelEn: nf(row, "label_en"),
+    }),
+    fallback: heroStatsFallback,
+  });
+}
+
 export function useSettings(): SettingsValues {
   const query = useQuery({
     queryKey: ["content", "site_settings"],
@@ -326,6 +419,16 @@ export function useSettings(): SettingsValues {
         donationPayPalLink: nf(row, "donation_paypal_link"),
         donationUsdtAddress: nf(row, "donation_usdt_address"),
         donationUsdtNetwork: nf(row, "donation_usdt_network"),
+        heroBadgeAr: nf(row, "hero_badge_ar"),
+        heroBadgeEn: nf(row, "hero_badge_en"),
+        heroTitleAr: nf(row, "hero_title_ar"),
+        heroTitleAccentAr: nf(row, "hero_title_accent_ar"),
+        heroTitleLine2Ar: nf(row, "hero_title_line2_ar"),
+        heroTitleEn: nf(row, "hero_title_en"),
+        heroTitleAccentEn: nf(row, "hero_title_accent_en"),
+        heroTitleLine2En: nf(row, "hero_title_line2_en"),
+        heroSubtitleAr: nf(row, "hero_subtitle_ar"),
+        heroSubtitleEn: nf(row, "hero_subtitle_en"),
       } satisfies SettingsValues;
     },
   });

@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Target, Eye, Heart, Users } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { heroImage } from "@/lib/media";
+import { useTeamMembers } from "@/lib/content";
 
 const values = [
   {
@@ -35,43 +36,15 @@ const values = [
   },
 ];
 
-const boardMembers = [
-  {
-    nameAr: "د. أحمد العتيبي",
-    nameEn: "Dr. Ahmed Al-Otaibi",
-    roleAr: "رئيس مجلس الإدارة",
-    roleEn: "Board Chairman",
-    bioAr: "خبرة تزيد عن 20 عاماً في العمل الخيري والتنموي",
-    bioEn: "Over 20 years of experience in charity and development work",
-  },
-  {
-    nameAr: "أ. فاطمة الشمري",
-    nameEn: "Fatima Al-Shammari",
-    roleAr: "نائب الرئيس",
-    roleEn: "Vice Chairman",
-    bioAr: "متخصصة في إدارة المشاريع الإنسانية والتطوعية",
-    bioEn: "Specialist in humanitarian and volunteer project management",
-  },
-  {
-    nameAr: "م. خالد المالكي",
-    nameEn: "Eng. Khaled Al-Malki",
-    roleAr: "المدير التنفيذي",
-    roleEn: "Executive Director",
-    bioAr: "خبير في التخطيط الاستراتيجي وإدارة المؤسسات غير الربحية",
-    bioEn: "Expert in strategic planning and nonprofit management",
-  },
-  {
-    nameAr: "د. نورة القحطاني",
-    nameEn: "Dr. Noura Al-Qahtani",
-    roleAr: "مستشار",
-    roleEn: "Advisor",
-    bioAr: "أكاديمية ومتخصصة في الدراسات الاجتماعية",
-    bioEn: "Academic specialized in social studies",
-  },
-];
+const categoryEn: Record<string, string> = {
+  "مجلس الإدارة": "Board of Directors",
+  "فريق العمل": "Team",
+  "متطوعون": "Volunteers",
+};
 
 export default function AboutPage() {
   const { t, isRTL, language } = useLanguage();
+  const team = useTeamMembers();
 
   return (
     <Layout>
@@ -204,17 +177,25 @@ export default function AboutPage() {
               {t("فريقنا", "Our Team")}
             </span>
             <h2 className="text-3xl font-bold text-foreground">
-              {t("مجلس", "Board of")} <span className="text-heritage-gold">{t("الإدارة", "Directors")}</span>
+              {t("مجلس", "Board of")} <span className="text-heritage-gold">{t("الإدارة", "Directors")}</span> {t("وفريق", "&")} <span className="text-heritage-gold">{t("العمل", "Team")}</span>
             </h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {boardMembers.map((member, index) => (
-              <Card key={index} variant="elevated" className="text-center p-6">
-                <div className="w-20 h-20 rounded-full bg-gradient-hero mx-auto mb-4 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-primary-foreground">
-                    {language === "ar" ? member.nameAr.charAt(0) : member.nameEn.charAt(0)}
-                  </span>
-                </div>
+            {team.map((member) => (
+              <Card key={member.id} variant="elevated" className="text-center p-6">
+                {member.photo ? (
+                  <img
+                    src={member.photo}
+                    alt={t(member.nameAr, member.nameEn)}
+                    className="w-20 h-20 rounded-full object-cover mx-auto mb-4 border-2 border-heritage-gold/40"
+                  />
+                ) : (
+                  <div className="w-20 h-20 rounded-full bg-gradient-hero mx-auto mb-4 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-primary-foreground">
+                      {language === "ar" ? member.nameAr.charAt(0) : member.nameEn.charAt(0)}
+                    </span>
+                  </div>
+                )}
                 <CardContent className="p-0 space-y-2">
                   <h3 className="font-bold text-foreground">
                     {language === "ar" ? member.nameAr : member.nameEn}
@@ -222,6 +203,9 @@ export default function AboutPage() {
                   <p className="text-sm text-heritage-gold font-medium">
                     {language === "ar" ? member.roleAr : member.roleEn}
                   </p>
+                  <span className="inline-block text-xs px-3 py-1 bg-heritage-gold/10 text-heritage-gold rounded-full">
+                    {language === "ar" ? member.category : (categoryEn[member.category] ?? member.category)}
+                  </span>
                   <p className="text-xs text-muted-foreground">
                     {language === "ar" ? member.bioAr : member.bioEn}
                   </p>
