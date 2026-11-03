@@ -30,32 +30,35 @@ export interface SettingsValues { contactPhone: string; contactPhoneDisplay: str
 
 const nf = (row: AdminRow, key: string): string => String(row[key] ?? "");
 
-const demoFallbackEnabled = import.meta.env.VITE_DEMO_FALLBACK !== "off";
-
 export interface ContentShape<T> {
   table: string;
   order?: string;
   map: (row: AdminRow) => T;
   fallback: T[];
+  mandatoryFallback?: boolean;
 }
 
 function useContent<T>(shape: ContentShape<T>): T[] {
+  const prefersFallback = Boolean(shape.mandatoryFallback);
+  const empty: T[] = [];
   const query = useQuery({
     queryKey: ["content", shape.table],
     enabled: isSupabaseConfigured,
     queryFn: async () => {
       const sb = safeSupabase();
-      if (!sb) return demoFallbackEnabled ? shape.fallback : [];
+      if (!sb) return prefersFallback ? shape.fallback : empty;
       const { data, error } = await sb
         .from(shape.table)
         .select("*")
         .order(shape.order ?? "id");
-      if (error || !data || (data.length === 0 && demoFallbackEnabled)) return shape.fallback;
+      if (error || !data || (data.length === 0 && !prefersFallback)) {
+        return prefersFallback ? shape.fallback : empty;
+      }
       return (data as unknown as AdminRow[]).map(shape.map);
     },
   });
-  if (!isSupabaseConfigured) return demoFallbackEnabled ? shape.fallback : [];
-  return query.data ?? (demoFallbackEnabled ? shape.fallback : []);
+  if (!isSupabaseConfigured) return prefersFallback ? shape.fallback : empty;
+  return query.data ?? (prefersFallback ? shape.fallback : empty);
 }
 
 const newsFallback: NewsItem[] = [
@@ -378,6 +381,7 @@ export function useHeroImages(): HeroImage[] {
   return useContent<HeroImage>({
     table: "hero_images",
     order: "sort_index",
+    mandatoryFallback: true,
     map: (row) => ({
       id: row.id,
       src: nf(row, "image_url") || heroWebp,
