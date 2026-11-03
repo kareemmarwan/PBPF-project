@@ -2,6 +2,7 @@ import { Layout } from "@/components/layout";
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useGallery } from "@/lib/content";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 const categories = ["الكل", "مشاريع", "نشاطات", "فعاليات"];
 
@@ -15,6 +16,11 @@ const categoriesEn: Record<string, string> = {
 export default function GalleryPage() {
   const [activeCategory, setActiveCategory] = useState("الكل");
   const { t, isRTL, language } = useLanguage();
+  usePageTitle({
+    titleAr: "معرض الصور | مؤسسة جسور السلام",
+    titleEn: "Gallery | Palestinian Bridges of Peace",
+  });
+
   const galleryItems = useGallery();
 
   const filteredItems = activeCategory === "الكل"
@@ -65,7 +71,7 @@ export default function GalleryPage() {
                 key={index}
                 className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer"
               >
-                <img
+                <img loading="lazy" decoding="async"
                   src={item.src}
                   alt={language === "ar" ? item.altAr : item.altEn}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

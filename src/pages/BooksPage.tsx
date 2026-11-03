@@ -4,9 +4,15 @@ import { Button } from "@/components/ui/button";
 import { BookOpen, Download, Calendar } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useBooks, useStories } from "@/lib/content";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 export default function BooksPage() {
   const { t, isRTL, language } = useLanguage();
+  usePageTitle({
+    titleAr: "الكتب والقصص | مؤسسة جسور السلام",
+    titleEn: "Books & Stories | Palestinian Bridges of Peace",
+  });
+
   const books = useBooks();
   const stories = useStories();
 

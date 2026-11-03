@@ -11,8 +11,13 @@ import {
   NewsSection,
   GalleryPreview,
 } from "@/components/home";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 const Index = () => {
+  usePageTitle({
+    titleAr: "مؤسسة جسور السلام الفلسطينية للعون والتنمية",
+    titleEn: "Palestinian Bridges of Peace Foundation for Relief and Development",
+  });
   const location = useLocation();
 
   useEffect(() => {

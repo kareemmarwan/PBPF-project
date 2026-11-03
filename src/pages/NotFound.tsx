@@ -2,9 +2,15 @@ import { Layout } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 const NotFound = () => {
   const { t, isRTL } = useLanguage();
+  usePageTitle({
+    titleAr: "الصفحة غير موجودة | مؤسسة جسور السلام",
+    titleEn: "Page Not Found | Palestinian Bridges of Peace",
+  });
+
 
   return (
     <Layout>

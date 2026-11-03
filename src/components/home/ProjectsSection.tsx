@@ -45,7 +45,7 @@ export function ProjectsSection() {
                 className="group overflow-hidden h-full cursor-pointer"
               >
                 <div className="relative h-48 overflow-hidden">
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={project.image}
                     alt={language === "ar" ? project.titleAr : project.titleEn}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

@@ -4,11 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Heart, Copy, Check } from "lucide-react";
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { siteConfig } from "@/config/site";import { useSettings } from "@/lib/content";
+import { useSettings } from "@/lib/content";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 export default function DonatePage() {
   const [copiedIban, setCopiedIban] = useState(false);
   const { t, isRTL } = useLanguage();
+  usePageTitle({
+    titleAr: "تبرع لنا | مؤسسة جسور السلام",
+    titleEn: "Donate | Palestinian Bridges of Peace",
+  });
+
   const settings = useSettings();
 
   const ibanNumber = settings.donationIban;
@@ -73,8 +79,8 @@ export default function DonatePage() {
                   </div>
                   <p className="text-xs text-muted-foreground mt-3">
                     {t(
-                      `اسم الحساب: ${siteConfig.donation.accountName.ar}`,
-                      `Account name: ${siteConfig.donation.accountName.en}`
+                      `اسم الحساب: ${settings.donationAccountNameAr}`,
+                      `Account name: ${settings.donationAccountNameEn}`
                     )}
                   </p>
                 </div>

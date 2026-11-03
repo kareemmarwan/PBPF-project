@@ -9,6 +9,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useSettings } from "@/lib/content";
 import { safeSupabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
+import { usePageTitle } from "@/hooks/use-page-title";
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -16,6 +17,11 @@ export default function ContactPage() {
     message: "",
   });
   const { t, isRTL } = useLanguage();
+  usePageTitle({
+    titleAr: "تواصل معنا | مؤسسة جسور السلام",
+    titleEn: "Contact Us | Palestinian Bridges of Peace",
+  });
+
   const settings = useSettings();
   const { toast } = useToast();
 

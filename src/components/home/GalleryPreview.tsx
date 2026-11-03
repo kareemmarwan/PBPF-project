@@ -45,7 +45,7 @@ export function GalleryPreview() {
               className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer animate-scale-in"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <img
+              <img loading="lazy" decoding="async"
                 src={image.src}
                 alt={language === "ar" ? image.altAr : image.altEn}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

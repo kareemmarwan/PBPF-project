@@ -3,9 +3,15 @@ import { Cookie, Settings2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSettings } from "@/lib/content";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 export default function CookiePolicyPage() {
   const { t, isRTL } = useLanguage();
+  usePageTitle({
+    titleAr: "سياسة الكوكيز | مؤسسة جسور السلام",
+    titleEn: "Cookie Policy | Palestinian Bridges of Peace",
+  });
+
   const settings = useSettings();
 
   const sections = [

@@ -3,9 +3,15 @@ import { FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSettings } from "@/lib/content";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 export default function TermsPage() {
   const { t, isRTL } = useLanguage();
+  usePageTitle({
+    titleAr: "الشروط والأحكام | مؤسسة جسور السلام",
+    titleEn: "Terms & Conditions | Palestinian Bridges of Peace",
+  });
+
   const settings = useSettings();
 
   const sections = [

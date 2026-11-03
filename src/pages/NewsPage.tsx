@@ -3,9 +3,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Calendar } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useNews } from "@/lib/content";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 export default function NewsPage() {
   const { t, isRTL, language } = useLanguage();
+  usePageTitle({
+    titleAr: "الأخبار | مؤسسة جسور السلام",
+    titleEn: "News | Palestinian Bridges of Peace",
+  });
+
   const newsItems = useNews();
 
   return (

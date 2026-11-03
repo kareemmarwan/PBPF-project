@@ -11,6 +11,7 @@ import { siteConfig } from "@/config/site";
 import type { Session } from "@supabase/supabase-js";
 import { ResourceEditor } from "./ResourceEditor";
 import { resourceMap, resources } from "./resources";
+import { usePageTitle } from "@/hooks/use-page-title";
 import {
   LayoutDashboard, Newspaper, HandHeart, Image as ImageIcon, Images, BookOpen, Quote,
   MessageSquareQuote, ChartColumn, Settings, Inbox, LogOut, Loader2, Globe, LockKeyhole,
@@ -123,6 +124,8 @@ function SettingsForm() {
         address_ar: String(load.data.address_ar ?? ""),
         address_en: String(load.data.address_en ?? ""),
         donation_iban: String(load.data.donation_iban ?? ""),
+        donation_account_name_ar: String(load.data.donation_account_name_ar ?? ""),
+        donation_account_name_en: String(load.data.donation_account_name_en ?? ""),
         donation_click_link: String(load.data.donation_click_link ?? ""),
         hero_badge_ar: String(load.data.hero_badge_ar ?? ""),
         hero_badge_en: String(load.data.hero_badge_en ?? ""),
@@ -162,6 +165,8 @@ function SettingsForm() {
     { key: "address_ar", labelAr: "العنوان (عربي)", labelEn: "Address (AR)" },
     { key: "address_en", labelAr: "العنوان (إنجليزي)", labelEn: "Address (EN)" },
     { key: "donation_iban", labelAr: "رقم الآيبان", labelEn: "IBAN", ltr: true },
+    { key: "donation_account_name_ar", labelAr: "اسم الحساب (عربي)", labelEn: "Account name (AR)" },
+    { key: "donation_account_name_en", labelAr: "اسم الحساب (إنجليزي)", labelEn: "Account name (EN)", ltr: true },
     { key: "donation_click_link", labelAr: "رابط التبرع السريع (كليك)", labelEn: "Quick pay link", ltr: true },
     { key: "hero_badge_ar", labelAr: "الشارة (عربي)", labelEn: "Badge (AR)" },
     { key: "hero_badge_en", labelAr: "الشارة (إنجليزي)", labelEn: "Badge (EN)", ltr: true },
@@ -337,6 +342,7 @@ function SetupView() {
 
 export default function AdminApp() {
   const { t, language, toggleLanguage, isRTL } = useLanguage();
+  usePageTitle({ titleAr: "لوحة التحكم", titleEn: "Admin Dashboard" });
   const { session, ready } = useAdminSession();
   const [section, setSection] = useState("overview");
 

@@ -34,7 +34,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* About Section */}
           <div className="space-y-6">
-            <img
+            <img loading="lazy" decoding="async"
               src={language === "ar" ? "/assets/logofooterar.png" : "/assets/logofooteren.png"}
               alt={t(
                 "مؤسسة جسور السلام الفلسطينية للعون والتنمية",

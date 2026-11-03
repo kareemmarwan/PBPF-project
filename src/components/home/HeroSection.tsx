@@ -86,21 +86,23 @@ export function HeroSection() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-12 animate-fade-up animation-delay-600">
-            {stats.map((stat) => (
-              <div
-                key={stat.id}
-                className="text-center p-4 rounded-xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10"
-              >
-                <div className="text-2xl sm:text-3xl font-bold text-heritage-gold">
-                  {stat.value}
+          {stats.length > 0 && (
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-12 animate-fade-up animation-delay-600">
+              {stats.map((stat) => (
+                <div
+                  key={stat.id}
+                  className="text-center p-4 rounded-xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10"
+                >
+                  <div className="text-2xl sm:text-3xl font-bold text-heritage-gold">
+                    {stat.value}
+                  </div>
+                  <div className="text-sm text-primary-foreground/70 mt-1">
+                    {t(stat.labelAr, stat.labelEn)}
+                  </div>
                 </div>
-                <div className="text-sm text-primary-foreground/70 mt-1">
-                  {t(stat.labelAr, stat.labelEn)}
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

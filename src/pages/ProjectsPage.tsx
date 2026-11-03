@@ -4,9 +4,15 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useProjectsDetails } from "@/lib/content";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 export default function ProjectsPage() {
   const { t, isRTL, language } = useLanguage();
+  usePageTitle({
+    titleAr: "مشاريعنا | مؤسسة جسور السلام",
+    titleEn: "Projects | Palestinian Bridges of Peace",
+  });
+
   const projects = useProjectsDetails();
   const location = useLocation();
 
@@ -51,7 +57,7 @@ export default function ProjectsPage() {
               >
                 <div className="grid lg:grid-cols-2">
                   <div className={`relative h-64 lg:h-auto ${index % 2 === 1 ? "lg:order-2" : ""}`}>
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={project.image}
                       alt={language === "ar" ? project.titleAr : project.titleEn}
                       className="w-full h-full object-cover"

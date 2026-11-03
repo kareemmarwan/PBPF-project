@@ -4,6 +4,7 @@ import { Target, Eye, Heart, Users } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { heroImage } from "@/lib/media";
 import { useTeamMembers } from "@/lib/content";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 const values = [
   {
@@ -43,6 +44,10 @@ const categoryEn: Record<string, string> = {
 };
 
 export default function AboutPage() {
+  usePageTitle({
+    titleAr: "من نحن | مؤسسة جسور السلام",
+    titleEn: "About Us | Palestinian Bridges of Peace",
+  });
   const { t, isRTL, language } = useLanguage();
   const team = useTeamMembers();
 
@@ -105,7 +110,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="relative rounded-2xl overflow-hidden shadow-heritage-elevated min-h-72">
-              <img
+              <img loading="lazy" decoding="async"
                 src={heroImage}
                 alt={t("لحظات من مبادرات المؤسسة الميدانية", "Moments from our field initiatives")}
                 className="absolute inset-0 w-full h-full object-cover"
@@ -184,7 +189,7 @@ export default function AboutPage() {
             {team.map((member) => (
               <Card key={member.id} variant="elevated" className="text-center p-6">
                 {member.photo ? (
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={member.photo}
                     alt={t(member.nameAr, member.nameEn)}
                     className="w-20 h-20 rounded-full object-cover mx-auto mb-4 border-2 border-heritage-gold/40"

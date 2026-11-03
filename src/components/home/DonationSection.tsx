@@ -129,7 +129,7 @@ export function DonationSection() {
           onMouseLeave={() => setSlidePaused(false)}
         >
           {DONATION_SLIDES.map((item, index) => (
-            <img
+            <img loading="lazy" decoding="async"
               key={item.image}
               src={item.image}
               alt={t(item.titleAr, item.titleEn)}
