@@ -26,9 +26,11 @@ export interface ImpactItem { id: number; icon: string; value: string; labelAr: 
 export interface TeamMember { id: number; nameAr: string; nameEn: string; roleAr: string; roleEn: string; bioAr: string; bioEn: string; category: string; photo: string; sortIndex: number; }
 export interface HeroImage { id: number; src: string; altAr: string; altEn: string; }
 export interface HeroStat { id: number; value: string; labelAr: string; labelEn: string; }
-export interface SettingsValues { contactPhone: string; contactPhoneDisplay: string; contactEmail: string; addressAr: string; addressEn: string; donationIban: string; donationClickLink: string; donationPayPalLink: string; donationUsdtAddress: string; donationUsdtNetwork: string; heroBadgeAr: string; heroBadgeEn: string; heroTitleAr: string; heroTitleAccentAr: string; heroTitleLine2Ar: string; heroTitleEn: string; heroTitleAccentEn: string; heroTitleLine2En: string; heroSubtitleAr: string; heroSubtitleEn: string; }
+export interface SettingsValues { contactPhone: string; contactPhoneDisplay: string; contactEmail: string; addressAr: string; addressEn: string; donationIban: string; donationAccountNameAr: string; donationAccountNameEn: string; donationClickLink: string; donationPayPalLink: string; donationUsdtAddress: string; donationUsdtNetwork: string; heroBadgeAr: string; heroBadgeEn: string; heroTitleAr: string; heroTitleAccentAr: string; heroTitleLine2Ar: string; heroTitleEn: string; heroTitleAccentEn: string; heroTitleLine2En: string; heroSubtitleAr: string; heroSubtitleEn: string; }
 
 const nf = (row: AdminRow, key: string): string => String(row[key] ?? "");
+
+const demoFallbackEnabled = import.meta.env.VITE_DEMO_FALLBACK !== "off";
 
 export interface ContentShape<T> {
   table: string;
@@ -43,17 +45,17 @@ function useContent<T>(shape: ContentShape<T>): T[] {
     enabled: isSupabaseConfigured,
     queryFn: async () => {
       const sb = safeSupabase();
-      if (!sb) return shape.fallback;
+      if (!sb) return demoFallbackEnabled ? shape.fallback : [];
       const { data, error } = await sb
         .from(shape.table)
         .select("*")
         .order(shape.order ?? "id");
-      if (error || !data || data.length === 0) return shape.fallback;
+      if (error || !data || (data.length === 0 && demoFallbackEnabled)) return shape.fallback;
       return (data as unknown as AdminRow[]).map(shape.map);
     },
   });
-  if (!isSupabaseConfigured) return shape.fallback;
-  return query.data ?? shape.fallback;
+  if (!isSupabaseConfigured) return demoFallbackEnabled ? shape.fallback : [];
+  return query.data ?? (demoFallbackEnabled ? shape.fallback : []);
 }
 
 const newsFallback: NewsItem[] = [
@@ -169,6 +171,8 @@ const settingsFallback: SettingsValues = {
   addressAr: "المملكة العربية السعودية",
   addressEn: "Saudi Arabia",
   donationIban: siteConfig.donation.iban,
+  donationAccountNameAr: siteConfig.donation.accountName.ar,
+  donationAccountNameEn: siteConfig.donation.accountName.en,
   donationClickLink: siteConfig.donation.clickLink,
   donationPayPalLink: siteConfig.donation.payPalLink,
   donationUsdtAddress: siteConfig.donation.usdtAddress,
@@ -415,6 +419,8 @@ export function useSettings(): SettingsValues {
         addressAr: nf(row, "address_ar"),
         addressEn: nf(row, "address_en"),
         donationIban: nf(row, "donation_iban"),
+        donationAccountNameAr: nf(row, "donation_account_name_ar"),
+        donationAccountNameEn: nf(row, "donation_account_name_en"),
         donationClickLink: nf(row, "donation_click_link"),
         donationPayPalLink: nf(row, "donation_paypal_link"),
         donationUsdtAddress: nf(row, "donation_usdt_address"),

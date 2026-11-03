@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Heart, Globe, Phone, Mail, MapPin } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSettings } from "@/lib/content";
 
 const navigation = [
   { name: "الرئيسية", nameEn: "Home", href: "/" },
@@ -14,18 +15,12 @@ const navigation = [
   { name: "تواصل معنا", nameEn: "Contact", href: "/contact" },
 ];
 
-const topBarContact = {
-  phoneLabel: "+966 50 000 0000",
-  phoneHref: "tel:+966500000000",
-  email: "info@arabheritage.org",
-  location: { ar: "المملكة العربية السعودية", en: "Saudi Arabia" },
-};
-
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { language, toggleLanguage, t, isRTL } = useLanguage();
+  const settings = useSettings();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,25 +56,25 @@ export function Header() {
           <div className="flex h-11 items-center justify-between gap-4">
             <div className="hidden md:flex items-center gap-1 text-sm">
               <a
-                href={topBarContact.phoneHref}
+                href={`tel:${settings.contactPhone}`}
                 className="flex items-center gap-1.5 px-2 py-1 rounded-md text-foreground/80 hover:text-heritage-wine transition-colors"
                 aria-label={t("اتصال هاتفي", "Call us")}
               >
                 <Phone className="w-3.5 h-3.5 text-heritage-steel" />
-                <span dir="ltr" className="font-medium">{topBarContact.phoneLabel}</span>
+                <span dir="ltr" className="font-medium">{settings.contactPhoneDisplay}</span>
               </a>
               <span className="h-4 w-px bg-border" />
               <a
-                href={`mailto:${topBarContact.email}`}
+                href={`mailto:${settings.contactEmail}`}
                 className="hidden lg:flex items-center gap-1.5 px-2 py-1 rounded-md text-foreground/80 hover:text-heritage-wine transition-colors"
               >
                 <Mail className="w-3.5 h-3.5 text-heritage-steel" />
-                <span dir="ltr">{topBarContact.email}</span>
+                <span dir="ltr">{settings.contactEmail}</span>
               </a>
               <span className="hidden lg:block h-4 w-px bg-border" />
               <span className="hidden xl:flex items-center gap-1.5 px-2 py-1 text-foreground/70">
                 <MapPin className="w-3.5 h-3.5 text-heritage-steel" />
-                {t(topBarContact.location.ar, topBarContact.location.en)}
+                {t(settings.addressAr, settings.addressEn)}
               </span>
             </div>
 

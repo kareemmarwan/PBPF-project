@@ -158,6 +158,8 @@ create table if not exists public.site_settings (
   address_ar text default 'المملكة العربية السعودية',
   address_en text default 'Saudi Arabia',
   donation_iban text default 'SA00 0000 0000 0000 0000 0000',
+  donation_account_name_ar text default 'مؤسسة جسور السلام الفلسطينية للعون والتنمية',
+  donation_account_name_en text default 'Palestinian Bridges of Peace Foundation for Relief and Development',
   donation_click_link text default '',
   donation_paypal_link text default '',
   donation_usdt_address text default '',
@@ -221,13 +223,85 @@ create policy "messages admin all" on public.messages for all to authenticated u
 
 ملاحظة: في أول تنفيذ ربما ظهرَ خلل نتيجة سابقة من نفس النص — راجع الرسالة فقط.
 
+### 3.1) ترقية قاعدة قائمة (إن نفّذت النص قبل إضافة الجداول الجديدة)
+
+عند وجود النسخة الأقدم فقط، شغّل هذا الملحق — آمن للتكرار ويتجاوز الموجود مسبقاً:
+
+```sql
+create table if not exists public.team_members (
+  id bigint generated always as identity primary key,
+  name_ar text default '', name_en text default '',
+  role_ar text default '', role_en text default '',
+  bio_ar text default '', bio_en text default '',
+  category text default 'مجلس الإدارة',
+  photo_url text, sort_index int default 0,
+  created_at timestamptz default now()
+);
+
+create table if not exists public.hero_images (
+  id bigint generated always as identity primary key,
+  image_url text, alt_ar text default '', alt_en text default '',
+  sort_index int default 0, created_at timestamptz default now()
+);
+
+create table if not exists public.hero_stats (
+  id bigint generated always as identity primary key,
+  value text default '', label_ar text default '', label_en text default '',
+  sort_index int default 0, created_at timestamptz default now()
+);
+
+alter table public.site_settings add column if not exists donation_paypal_link text default '';
+alter table public.site_settings add column if not exists donation_account_name_ar text default 'مؤسسة جسور السلام الفلسطينية للعون والتنمية';
+alter table public.site_settings add column if not exists donation_account_name_en text default 'Palestinian Bridges of Peace Foundation for Relief and Development';
+alter table public.site_settings add column if not exists donation_usdt_address text default '';
+alter table public.site_settings add column if not exists donation_usdt_network text default 'TRC20';
+alter table public.site_settings add column if not exists hero_badge_ar text default '';
+alter table public.site_settings add column if not exists hero_badge_en text default '';
+alter table public.site_settings add column if not exists hero_title_ar text default '';
+alter table public.site_settings add column if not exists hero_title_accent_ar text default '';
+alter table public.site_settings add column if not exists hero_title_line2_ar text default '';
+alter table public.site_settings add column if not exists hero_title_en text default '';
+alter table public.site_settings add column if not exists hero_title_accent_en text default '';
+alter table public.site_settings add column if not exists hero_title_line2_en text default '';
+alter table public.site_settings add column if not exists hero_subtitle_ar text default '';
+alter table public.site_settings add column if not exists hero_subtitle_en text default '';
+
+alter table public.team_members enable row level security;
+alter table public.hero_images enable row level security;
+alter table public.hero_stats enable row level security;
+
+do $$ begin
+  create policy "content public read" on public.team_members for select using (true);
+  create policy "content public read" on public.hero_images for select using (true);
+  create policy "content public read" on public.hero_stats for select using (true);
+  create policy "content admin all" on public.team_members for all to authenticated using (true) with check (true);
+  create policy "content admin all" on public.hero_images for all to authenticated using (true) with check (true);
+  create policy "content admin all" on public.hero_stats for all to authenticated using (true) with check (true);
+exception when duplicate_object then null; end $$;
+```
+
 ## 4) إنشاء المستخدم المدير
 
 Authentication → Users → **Add user** (Email + كلمة مرور قوية) → Confirm (Auto Confirm ON).
 
 ## 5) تخزين الصور (Bucket)
 
-Storage → Create bucket → الاسم: **media** → Public = ON.
+Storage → Create bucket → الاسم: **media** (حروف صغيرة) → Public = ON.
+
+الرِّفع من اللوحة يحتاج سياسات `storage.objects` — Public يسمح بالقراءة فقط. شغّل في SQL Editor (آمن للتكرار):
+
+```sql
+do $$ begin
+  create policy "media admin write" on storage.objects
+    for insert to authenticated with check (bucket_id = 'media');
+  create policy "media admin update" on storage.objects
+    for update to authenticated using (bucket_id = 'media') with check (bucket_id = 'media');
+  create policy "media admin delete" on storage.objects
+    for delete to authenticated using (bucket_id = 'media');
+  create policy "media public read" on storage.objects
+    for select using (bucket_id = 'media');
+exception when duplicate_object then null; end $$;
+```
 
 ## 6) بذور البيانات (اختياري)
 
