@@ -36,6 +36,7 @@ export interface ContentShape<T> {
   map: (row: AdminRow) => T;
   fallback: T[];
   mandatoryFallback?: boolean;
+  filter?: (item: T) => boolean;
 }
 
 function useContent<T>(shape: ContentShape<T>): T[] {
@@ -54,7 +55,10 @@ function useContent<T>(shape: ContentShape<T>): T[] {
       if (error || !data || (data.length === 0 && !prefersFallback)) {
         return prefersFallback ? shape.fallback : empty;
       }
-      return (data as unknown as AdminRow[]).map(shape.map);
+      const mapped = (data as unknown as AdminRow[]).map(shape.map);
+      const list = shape.filter ? mapped.filter(shape.filter) : mapped;
+      if (list.length === 0 && !prefersFallback) return empty;
+      return list.length > 0 ? list : shape.fallback;
     },
   });
   if (!isSupabaseConfigured) return prefersFallback ? shape.fallback : empty;
@@ -384,10 +388,11 @@ export function useHeroImages(): HeroImage[] {
     mandatoryFallback: true,
     map: (row) => ({
       id: row.id,
-      src: nf(row, "image_url") || heroWebp,
+      src: nf(row, "image_url"),
       altAr: nf(row, "alt_ar"),
       altEn: nf(row, "alt_en"),
     }),
+    filter: (image) => Boolean(image.src),
     fallback: heroImagesFallback,
   });
 }
