@@ -146,6 +146,7 @@ create table if not exists public.hero_stats (
   value text default '',
   label_ar text default '',
   label_en text default '',
+  icon text default 'Users',
   sort_index int default 0,
   created_at timestamptz default now()
 );
@@ -247,8 +248,10 @@ create table if not exists public.hero_images (
 create table if not exists public.hero_stats (
   id bigint generated always as identity primary key,
   value text default '', label_ar text default '', label_en text default '',
+  icon text default 'Users',
   sort_index int default 0, created_at timestamptz default now()
 );
+alter table public.hero_stats add column if not exists icon text default 'Users';
 
 alter table public.site_settings add column if not exists donation_paypal_link text default '';
 alter table public.site_settings add column if not exists donation_account_name_ar text default 'مؤسسة جسور السلام الفلسطينية للعون والتنمية';

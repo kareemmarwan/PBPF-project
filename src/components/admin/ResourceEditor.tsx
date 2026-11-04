@@ -9,9 +9,17 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { safeSupabase } from "@/lib/supabase";
 import type { AdminRow } from "@/lib/content";
 import type { FieldDef, ResourceDef } from "./resources";
-import { Plus, Pencil, Trash2, Loader2 } from "lucide-react";
+import { statIconMap, STAT_ICON_OPTIONS } from "@/lib/icons";
+import { Plus, Pencil, Trash2, Loader2, Users } from "lucide-react";
 
 type Draft = Record<string, string>;
+
+const sanitizeInput = (s: string) =>
+  s
+    .replace(/[\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, "")
+    .replace(/\u00A0/g, " ")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u2018\u2019]/g, "'");
 
 export function ResourceEditor({ resource }: { resource: ResourceDef }) {
   const { t, language } = useLanguage();
@@ -36,7 +44,16 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
       const sb = safeSupabase()!;
       const values: Record<string, string | number | null> = {};
       resource.fields.forEach((field) => {
-        const raw = payload[field.key] ?? "";
+        const raw = sanitizeInput(payload[field.key] ?? "");
+        if (field.key === "stats" && raw.trim()) {
+          try {
+            JSON.parse(raw);
+          } catch {
+            throw new Error(
+              t("الإحصائيات (JSON) غير صحيحة — الصق النص كما في المثال ثم أعد الحفظ", "Invalid stats JSON — paste the sample exactly then save again"),
+            );
+          }
+        }
         values[field.key] =
           field.type === "number"
             ? raw === "" ? null : Number(raw)
@@ -81,7 +98,11 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
   });
 
   const openNew = () => {
-    setDraft({});
+    const d: Draft = {};
+    resource.fields.forEach((f) => {
+      if (f.type === "icon") d[f.key] = STAT_ICON_OPTIONS[0];
+    });
+    setDraft(d);
     setEditingId(null);
   };
 
@@ -175,7 +196,7 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
           </DialogHeader>
           <div className="grid sm:grid-cols-2 gap-4 py-2">
             {(resource.fields ?? []).map((field) => (
-              <div key={field.key} className={field.type === "textarea" ? "sm:col-span-2" : ""}>
+              <div key={field.key} className={field.type === "textarea" || field.type === "icon" ? "sm:col-span-2" : ""}>
                 <label className="block text-sm font-medium text-foreground mb-1.5">{label(field)}</label>
                 {field.type === "textarea" ? (
                   <Textarea
@@ -183,6 +204,28 @@ export function ResourceEditor({ resource }: { resource: ResourceDef }) {
                     value={draft?.[field.key] ?? ""}
                     onChange={(e) => setDraft((prev) => (prev ? { ...prev, [field.key]: e.target.value } : prev))}
                   />
+                ) : field.type === "icon" ? (
+                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                    {STAT_ICON_OPTIONS.map((opt) => {
+                      const Icon = statIconMap[opt] ?? Users;
+                      const active = (draft?.[field.key] ?? "Users") === opt;
+                      return (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => setDraft((prev) => (prev ? { ...prev, [field.key]: opt } : prev))}
+                          className={`flex flex-col items-center gap-1.5 py-3 rounded-xl border text-xs font-medium transition-colors ${
+                            active
+                              ? "border-heritage-wine bg-heritage-wine/10 text-heritage-wine"
+                              : "border-input text-muted-foreground hover:border-heritage-gold/50 hover:text-foreground"
+                          }`}
+                        >
+                          <Icon className="w-5 h-5" />
+                          <span dir="ltr">{opt}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 ) : field.type === "select" ? (
                   <select
                     className="flex h-10 w-full rounded-lg border border-input bg-background px-3 text-sm"

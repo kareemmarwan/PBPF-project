@@ -1,15 +1,7 @@
-import { Users, Heart, Utensils, GraduationCap, Home, Gift } from "lucide-react";
+import { Users } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useImpact } from "@/lib/content";
-
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Users,
-  Utensils,
-  Heart,
-  GraduationCap,
-  Home,
-  Gift,
-};
+import { statIconMap } from "@/lib/icons";
 
 export function ImpactSection() {
   const { t, isRTL } = useLanguage();
@@ -38,7 +30,7 @@ export function ImpactSection() {
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {stats.map((stat, index) => {
-            const Icon = iconMap[stat.icon] ?? Users;
+            const Icon = statIconMap[stat.icon] ?? Users;
             return (
             <div
               key={index}

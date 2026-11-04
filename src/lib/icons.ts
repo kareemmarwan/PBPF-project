@@ -1,0 +1,45 @@
+import {
+  Users,
+  Heart,
+  Utensils,
+  GraduationCap,
+  Home,
+  Gift,
+  BookOpen,
+  HandHeart,
+  Baby,
+  Droplets,
+  Pill,
+  Package,
+  type LucideIcon,
+} from "lucide-react";
+
+export const STAT_ICON_OPTIONS: string[] = [
+  "Users",
+  "HandHeart",
+  "Heart",
+  "Utensils",
+  "GraduationCap",
+  "BookOpen",
+  "Baby",
+  "Home",
+  "Gift",
+  "Droplets",
+  "Pill",
+  "Package",
+];
+
+export const statIconMap: Record<string, LucideIcon> = {
+  Users,
+  HandHeart,
+  Heart,
+  Utensils,
+  GraduationCap,
+  BookOpen,
+  Baby,
+  Home,
+  Gift,
+  Droplets,
+  Pill,
+  Package,
+};

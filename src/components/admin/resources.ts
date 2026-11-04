@@ -1,6 +1,6 @@
 import type { AdminRow } from "@/lib/content";
 
-export type FieldType = "text" | "textarea" | "date" | "number" | "image" | "select";
+export type FieldType = "text" | "textarea" | "date" | "number" | "image" | "select" | "icon";
 
 export interface FieldDef {
   key: string;
@@ -141,7 +141,7 @@ export const resources: ResourceDef[] = [
     titleEn: "Impact Stats",
     icon: "ChartColumn",
     fields: [
-      { key: "icon", labelAr: "الأيقونة", labelEn: "Icon", type: "select", options: ["Users", "Utensils", "Heart", "GraduationCap", "Home", "Gift"] },
+      { key: "icon", labelAr: "الأيقونة", labelEn: "Icon", type: "icon" },
       { key: "value", labelAr: "القيمة", labelEn: "Value", type: "text" },
       { key: "label_ar", labelAr: "الوسم (عربي)", labelEn: "Label (AR)", type: "text" },
       { key: "label_en", labelAr: "الوسم (إنجليزي)", labelEn: "Label (EN)", type: "text" },
@@ -196,6 +196,7 @@ export const resources: ResourceDef[] = [
     icon: "ChartColumn",
     order: "sort_index",
     fields: [
+      { key: "icon", labelAr: "الأيقونة", labelEn: "Icon", type: "icon" },
       { key: "value", labelAr: "القيمة (مثل 10,000+)", labelEn: "Value (e.g. 10,000+)", type: "text" },
       { key: "label_ar", labelAr: "الوسم (عربي)", labelEn: "Label (AR)", type: "text" },
       { key: "label_en", labelAr: "الوسم (إنجليزي)", labelEn: "Label (EN)", type: "text" },

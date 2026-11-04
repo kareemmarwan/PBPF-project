@@ -25,7 +25,7 @@ export interface TestimonialItem { id: number; contentAr: string; contentEn: str
 export interface ImpactItem { id: number; icon: string; value: string; labelAr: string; labelEn: string; descAr: string; descEn: string; }
 export interface TeamMember { id: number; nameAr: string; nameEn: string; roleAr: string; roleEn: string; bioAr: string; bioEn: string; category: string; photo: string; sortIndex: number; }
 export interface HeroImage { id: number; src: string; altAr: string; altEn: string; }
-export interface HeroStat { id: number; value: string; labelAr: string; labelEn: string; }
+export interface HeroStat { id: number; value: string; labelAr: string; labelEn: string; icon: string; }
 export interface SettingsValues { contactPhone: string; contactPhoneDisplay: string; contactEmail: string; addressAr: string; addressEn: string; donationIban: string; donationAccountNameAr: string; donationAccountNameEn: string; donationClickLink: string; donationPayPalLink: string; donationUsdtAddress: string; donationUsdtNetwork: string; heroBadgeAr: string; heroBadgeEn: string; heroTitleAr: string; heroTitleAccentAr: string; heroTitleLine2Ar: string; heroTitleEn: string; heroTitleAccentEn: string; heroTitleLine2En: string; heroSubtitleAr: string; heroSubtitleEn: string; }
 
 const nf = (row: AdminRow, key: string): string => String(row[key] ?? "");
@@ -215,10 +215,10 @@ const heroImagesFallback: HeroImage[] = [
 ];
 
 const heroStatsFallback: HeroStat[] = [
-  { id: 1, value: "10,000+", labelAr: "مستفيد", labelEn: "Beneficiaries" },
-  { id: 2, value: "15+", labelAr: "مشروع", labelEn: "Projects" },
-  { id: 3, value: "50+", labelAr: "متطوع", labelEn: "Volunteers" },
-  { id: 4, value: "5", labelAr: "سنوات خدمة", labelEn: "Years" },
+  { id: 1, value: "10,000+", labelAr: "مستفيد", labelEn: "Beneficiaries", icon: "Users" },
+  { id: 2, value: "15+", labelAr: "مشروع", labelEn: "Projects", icon: "HandHeart" },
+  { id: 3, value: "50+", labelAr: "متطوع", labelEn: "Volunteers", icon: "Heart" },
+  { id: 4, value: "5", labelAr: "سنوات خدمة", labelEn: "Years", icon: "Gift" },
 ];
 
 export function useNews(): NewsItem[] {
@@ -406,6 +406,7 @@ export function useHeroStats(): HeroStat[] {
       value: nf(row, "value"),
       labelAr: nf(row, "label_ar"),
       labelEn: nf(row, "label_en"),
+      icon: nf(row, "icon") || "Users",
     }),
     fallback: heroStatsFallback,
   });

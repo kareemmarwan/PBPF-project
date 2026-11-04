@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Heart, Play } from "lucide-react";
+import { Heart, Play, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useHeroImages, useHeroStats, useSettings } from "@/lib/content";
+import { statIconMap } from "@/lib/icons";
 
 export function HeroSection() {
   const { t, isRTL } = useLanguage();
@@ -88,19 +89,25 @@ export function HeroSection() {
           {/* Stats */}
           {stats.length > 0 && (
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-12 animate-fade-up animation-delay-600">
-              {stats.map((stat) => (
-                <div
-                  key={stat.id}
-                  className="text-center p-4 rounded-xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10"
-                >
-                  <div className="text-2xl sm:text-3xl font-bold text-heritage-gold">
-                    {stat.value}
+              {stats.map((stat) => {
+                const Icon = statIconMap[stat.icon] ?? Users;
+                return (
+                  <div
+                    key={stat.id}
+                    className="text-center p-4 rounded-xl bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10"
+                  >
+                    <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-heritage-gold/15 text-heritage-gold flex items-center justify-center">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <div className="text-2xl sm:text-3xl font-bold text-heritage-gold">
+                      {stat.value}
+                    </div>
+                    <div className="text-sm text-primary-foreground/70 mt-1">
+                      {t(stat.labelAr, stat.labelEn)}
+                    </div>
                   </div>
-                  <div className="text-sm text-primary-foreground/70 mt-1">
-                    {t(stat.labelAr, stat.labelEn)}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
