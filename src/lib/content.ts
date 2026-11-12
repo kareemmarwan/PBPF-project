@@ -33,6 +33,7 @@ const nf = (row: AdminRow, key: string): string => String(row[key] ?? "");
 export interface ContentShape<T> {
   table: string;
   order?: string;
+  descending?: boolean;
   map: (row: AdminRow) => T;
   fallback: T[];
   mandatoryFallback?: boolean;
@@ -51,7 +52,7 @@ function useContent<T>(shape: ContentShape<T>): T[] {
       const { data, error } = await sb
         .from(shape.table)
         .select("*")
-        .order(shape.order ?? "id");
+        .order(shape.order ?? "id", { ascending: !shape.descending, nullsLast: true });
       if (error || !data || (data.length === 0 && !prefersFallback)) {
         return prefersFallback ? shape.fallback : empty;
       }
@@ -224,7 +225,8 @@ const heroStatsFallback: HeroStat[] = [
 export function useNews(): NewsItem[] {
   return useContent<NewsItem>({
     table: "news",
-    order: "date",
+    order: "event_date",
+    descending: true,
     map: (row) => ({
       id: row.id,
       titleAr: nf(row, "title_ar"),
