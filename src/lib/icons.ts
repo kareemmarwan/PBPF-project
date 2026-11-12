@@ -7,6 +7,8 @@ import {
   Gift,
   BookOpen,
   HandHeart,
+  HeartHandshake,
+  CalendarDays,
   Baby,
   Droplets,
   Pill,
@@ -17,7 +19,9 @@ import {
 export const STAT_ICON_OPTIONS: string[] = [
   "Users",
   "HandHeart",
+  "HeartHandshake",
   "Heart",
+  "CalendarDays",
   "Utensils",
   "GraduationCap",
   "BookOpen",
@@ -32,7 +36,9 @@ export const STAT_ICON_OPTIONS: string[] = [
 export const statIconMap: Record<string, LucideIcon> = {
   Users,
   HandHeart,
+  HeartHandshake,
   Heart,
+  CalendarDays,
   Utensils,
   GraduationCap,
   BookOpen,
