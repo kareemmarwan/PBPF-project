@@ -10,16 +10,10 @@ import { safeSupabase } from "@/lib/supabase";
 import type { AdminRow } from "@/lib/content";
 import type { FieldDef, ResourceDef } from "./resources";
 import { statIconMap, STAT_ICON_OPTIONS } from "@/lib/icons";
+import { sanitizeInput } from "@/lib/sanitize";
 import { Plus, Pencil, Trash2, Loader2, Users } from "lucide-react";
 
 type Draft = Record<string, string>;
-
-const sanitizeInput = (s: string) =>
-  s
-    .replace(/[\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, "")
-    .replace(/\u00A0/g, " ")
-    .replace(/[\u201C\u201D]/g, '"')
-    .replace(/[\u2018\u2019]/g, "'");
 
 export function ResourceEditor({ resource }: { resource: ResourceDef }) {
   const { t, language } = useLanguage();

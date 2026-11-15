@@ -173,6 +173,8 @@ export function Header() {
                 className="p-2 rounded-lg text-foreground hover:bg-muted transition-colors"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 aria-label={t("القائمة", "Menu")}
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-nav"
               >
                 {mobileMenuOpen ? (
                   <X className="w-6 h-6" />
@@ -186,7 +188,7 @@ export function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <nav className="lg:hidden mt-4 pb-4 border-t border-border pt-4 animate-fade-in">
+          <nav id="mobile-nav" className="lg:hidden mt-4 pb-4 border-t border-border pt-4 animate-fade-in">
             <div className="flex flex-col gap-2">
               {navigation.map((item) => (
                 <Link

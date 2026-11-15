@@ -111,6 +111,8 @@ export const resources: ResourceDef[] = [
       { key: "title_en", labelAr: "العنوان (إنجليزي)", labelEn: "Title (EN)", type: "text" },
       { key: "excerpt_ar", labelAr: "المقتطف (عربي)", labelEn: "Excerpt (AR)", type: "textarea" },
       { key: "excerpt_en", labelAr: "المقتطف (إنجليزي)", labelEn: "Excerpt (EN)", type: "textarea" },
+      { key: "content_ar", labelAr: "القصة كاملة (عربي)", labelEn: "Full story (AR)", type: "textarea" },
+      { key: "content_en", labelAr: "القصة كاملة (إنجليزي)", labelEn: "Full story (EN)", type: "textarea" },
     ],
     primary: (row) => String(row["title_ar"] ?? row["title_en"] ?? ""),
     secondary: (row) => String(row["excerpt_ar"] ?? ""),
@@ -204,6 +206,24 @@ export const resources: ResourceDef[] = [
     ],
     primary: (row) => `${String(row["value"] ?? "")} ${String(row["label_ar"] ?? "")}`,
     secondary: (row) => String(row["label_en"] ?? ""),
+  },
+  {
+    key: "about-values",
+    table: "about_values",
+    titleAr: "قيم المؤسسة",
+    titleEn: "Foundation Values",
+    icon: "Sparkles",
+    order: "sort_index",
+    fields: [
+      { key: "icon", labelAr: "الأيقونة", labelEn: "Icon", type: "icon" },
+      { key: "title_ar", labelAr: "العنوان (عربي)", labelEn: "Title (AR)", type: "text" },
+      { key: "title_en", labelAr: "العنوان (إنجليزي)", labelEn: "Title (EN)", type: "text" },
+      { key: "desc_ar", labelAr: "الوصف (عربي)", labelEn: "Desc (AR)", type: "textarea" },
+      { key: "desc_en", labelAr: "الوصف (إنجليزي)", labelEn: "Desc (EN)", type: "textarea" },
+      { key: "sort_index", labelAr: "الترتيب", labelEn: "Sort order", type: "number" },
+    ],
+    primary: (row) => String(row["title_ar"] ?? row["title_en"] ?? ""),
+    secondary: (row) => String(row["desc_ar"] ?? ""),
   },
 ];
 

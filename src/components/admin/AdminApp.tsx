@@ -10,12 +10,13 @@ import { isSupabaseConfigured, safeSupabase } from "@/lib/supabase";
 import { siteConfig } from "@/config/site";
 import type { Session } from "@supabase/supabase-js";
 import { ResourceEditor } from "./ResourceEditor";
+import { AboutForm } from "./AboutForm";
 import { resourceMap, resources } from "./resources";
 import { usePageTitle } from "@/hooks/use-page-title";
 import {
   LayoutDashboard, Newspaper, HandHeart, Image as ImageIcon, Images, BookOpen, Quote,
   MessageSquareQuote, ChartColumn, Settings, Inbox, LogOut, Loader2, Globe, LockKeyhole,
-  Table2, Trash2, Users,
+  Table2, Trash2, Users, Info, Sparkles,
 } from "lucide-react";
 
 const sectionIcons: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -30,6 +31,8 @@ const sectionIcons: Record<string, React.ComponentType<{ className?: string }>> 
   team: Users,
   "hero-images": Images,
   "hero-stats": ChartColumn,
+  "about-values": Sparkles,
+  about: Info,
   messages: Inbox,
   settings: Settings,
 };
@@ -324,7 +327,7 @@ function SetupView() {
     <div className="min-h-screen flex items-center justify-center bg-muted/40 p-4" dir="rtl">
       <Card variant="elevated" className="max-w-xl w-full p-8">
         <CardContent className="p-0 space-y-4 text-center">
-          <div className="w-14 h-14 rounded-2xl bg-heritage-gold/10 text-heritage-gold mx-auto flex items-center justify-center">
+          <div className="w-14 h-14 rounded-2xl bg-heritage-gold/10 text-heritage-gold-text mx-auto flex items-center justify-center">
             <Table2 className="w-7 h-7" />
           </div>
           <h1 className="text-xl font-bold">{t("Supabase غير مهيأ بعد", "Supabase not configured")}</h1>
@@ -349,6 +352,7 @@ export default function AdminApp() {
   const sections: { key: string; labelAr: string; labelEn: string; adminOnly?: boolean }[] = [
     { key: "overview", labelAr: "نظرة عامة", labelEn: "Overview" },
     ...resources.map((r) => ({ key: r.key, labelAr: r.titleAr, labelEn: r.titleEn })),
+    { key: "about", labelAr: "صفحة من نحن", labelEn: "About Page" },
     { key: "messages", labelAr: "رسائل التواصل", labelEn: "Messages" },
     { key: "settings", labelAr: "إعدادات الموقع", labelEn: "Settings" },
   ];
@@ -415,12 +419,13 @@ export default function AdminApp() {
 
         <main className="min-w-0">
           {section === "overview" && <Overview />}
+          {section === "about" && <AboutForm />}
           {section === "messages" && <MessagesView />}
           {section === "settings" && <SettingsForm />}
           {resourceMap.has(section) && (
             <ResourceEditor key={section} resource={resourceMap.get(section)!} />
           )}
-          {section !== "overview" && section !== "messages" && section !== "settings" && !resourceMap.has(section) && (
+          {section !== "overview" && section !== "about" && section !== "messages" && section !== "settings" && !resourceMap.has(section) && (
             <p className="text-muted-foreground">{t("قسم غير متوفر", "Section unavailable")}</p>
           )}
         </main>

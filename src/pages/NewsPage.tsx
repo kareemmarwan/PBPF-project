@@ -39,7 +39,7 @@ export default function NewsPage() {
               <Card key={item.id} variant="elevated" className="overflow-hidden hover:shadow-heritage transition-shadow">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <span className="px-3 py-1 bg-heritage-gold/10 text-heritage-gold text-xs font-semibold rounded-full">
+                    <span className="px-3 py-1 bg-heritage-gold/10 text-heritage-gold-text text-xs font-semibold rounded-full">
                       {language === "ar" ? item.categoryAr : item.categoryEn}
                     </span>
                     <span className="flex items-center gap-1 text-sm text-muted-foreground">

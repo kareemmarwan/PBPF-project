@@ -38,7 +38,7 @@ export function TestimonialsSection() {
         <p className="text-sm text-muted-foreground">
           {language === "ar" ? testimonial.roleAr : testimonial.roleEn}
         </p>
-        <p className="text-xs text-heritage-gold mt-1">
+        <p className="text-xs text-heritage-gold-text mt-1">
           {language === "ar" ? testimonial.locationAr : testimonial.locationEn}
         </p>
       </div>
@@ -50,12 +50,12 @@ export function TestimonialsSection() {
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <span className="inline-block px-4 py-1.5 bg-heritage-gold/10 text-heritage-gold text-sm font-semibold rounded-full">
+          <span className="inline-block px-4 py-1.5 bg-heritage-gold/10 text-heritage-gold-text text-sm font-semibold rounded-full">
             {t("قصص نجاح", "Success Stories")}
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-foreground">
             {t("أصوات", "Voices of")}{" "}
-            <span className="text-heritage-gold">{t("المستفيدين", "Beneficiaries")}</span>
+            <span className="text-heritage-gold-text">{t("المستفيدين", "Beneficiaries")}</span>
           </h2>
           <p className="text-muted-foreground text-lg">
             {t(

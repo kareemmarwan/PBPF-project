@@ -21,12 +21,12 @@ export function GalleryPreview() {
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-12">
           <div className="space-y-2">
-            <span className="inline-block px-4 py-1.5 bg-heritage-gold/10 text-heritage-gold text-sm font-semibold rounded-full">
+            <span className="inline-block px-4 py-1.5 bg-heritage-gold/10 text-heritage-gold-text text-sm font-semibold rounded-full">
               {t("معرض الصور", "Photo Gallery")}
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-foreground">
               {t("لحظات من", "Moments of")}{" "}
-              <span className="text-heritage-gold">{t("العطاء", "Giving")}</span>
+              <span className="text-heritage-gold-text">{t("العطاء", "Giving")}</span>
             </h2>
           </div>
           <Button variant="heritage-outline" asChild>

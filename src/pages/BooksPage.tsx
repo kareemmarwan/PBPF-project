@@ -1,13 +1,15 @@
 import { Layout } from "@/components/layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Download, Calendar } from "lucide-react";
+import { BookOpen, Download, Calendar, ChevronDown, ChevronUp } from "lucide-react";
+import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useBooks, useStories } from "@/lib/content";
 import { usePageTitle } from "@/hooks/use-page-title";
 
 export default function BooksPage() {
   const { t, isRTL, language } = useLanguage();
+  const [expandedId, setExpandedId] = useState<number | null>(null);
   usePageTitle({
     titleAr: "الكتب والقصص | مؤسسة جسور السلام",
     titleEn: "Books & Stories | Palestinian Bridges of Peace",
@@ -40,7 +42,7 @@ export default function BooksPage() {
       <section className="py-20 bg-background" dir={isRTL ? "rtl" : "ltr"}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-foreground mb-8">
-            <BookOpen className="inline-block w-8 h-8 text-heritage-gold me-2" />
+            <BookOpen className="inline-block w-8 h-8 text-heritage-gold-text me-2" />
             {t("الكتب المنشورة", "Published Books")}
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
@@ -49,14 +51,14 @@ export default function BooksPage() {
                 <CardContent className="p-8">
                   <div className="flex items-start gap-6">
                     <div className="w-32 h-44 bg-gradient-hero rounded-lg flex items-center justify-center flex-shrink-0">
-                      <BookOpen className="w-12 h-12 text-heritage-gold" />
+                      <BookOpen className="w-12 h-12 text-heritage-gold-text" />
                     </div>
                     <div className="flex-1 space-y-4">
                       <div>
                         <h3 className="text-xl font-bold text-foreground">
                           {language === "ar" ? book.titleAr : book.titleEn}
                         </h3>
-                        <p className="text-sm text-heritage-gold">
+                        <p className="text-sm text-heritage-gold-text">
                           {language === "ar" ? book.titleEn : book.titleAr}
                         </p>
                       </div>
@@ -96,10 +98,13 @@ export default function BooksPage() {
       <section className="py-20 bg-muted/30" dir={isRTL ? "rtl" : "ltr"}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-foreground mb-8">
-            {t("قصص", "Stories of")} <span className="text-heritage-gold">{t("النازحين", "the Displaced")}</span>
+            {t("قصص", "Stories of")} <span className="text-heritage-gold-text">{t("النازحين", "the Displaced")}</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
-            {stories.map((story) => (
+            {stories.map((story) => {
+              const content = language === "ar" ? story.contentAr : story.contentEn;
+              const expanded = expandedId === story.id && Boolean(content);
+              return (
               <Card key={story.id} variant="elevated" className="p-6">
                 <CardContent className="p-0 space-y-4">
                   <h3 className="text-xl font-bold text-foreground">
@@ -108,12 +113,35 @@ export default function BooksPage() {
                   <p className="text-muted-foreground leading-relaxed">
                     {language === "ar" ? story.excerptAr : story.excerptEn}
                   </p>
-                  <Button variant="link" className="p-0 text-heritage-gold">
-                    {t("اقرأ القصة كاملة", "Read Full Story")}
-                  </Button>
+                  {expanded && (
+                    <p className="text-muted-foreground leading-relaxed animate-fade-in">
+                      {content}
+                    </p>
+                  )}
+                  {content && (
+                    <Button
+                      variant="link"
+                      className="p-0 text-heritage-gold-text"
+                      aria-expanded={expanded}
+                      onClick={() => setExpandedId(expanded ? null : story.id)}
+                    >
+                      {expanded ? (
+                        <>
+                          <ChevronUp className="w-4 h-4" />
+                          {t("إخفاء القصة", "Hide Story")}
+                        </>
+                      ) : (
+                        <>
+                          <ChevronDown className="w-4 h-4" />
+                          {t("اقرأ القصة كاملة", "Read Full Story")}
+                        </>
+                      )}
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

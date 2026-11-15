@@ -93,7 +93,7 @@ export default function CookiePolicyPage() {
                 )}{" "}
                 <a
                   href={`mailto:${settings.contactEmail}`}
-                  className="text-heritage-gold hover:underline"
+                  className="text-heritage-gold-text hover:underline"
                   dir="ltr"
                 >
                   {settings.contactEmail}
@@ -101,7 +101,7 @@ export default function CookiePolicyPage() {
                 .
               </p>
               <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-                <Settings2 className="w-3.5 h-3.5 text-heritage-gold" />
+                <Settings2 className="w-3.5 h-3.5 text-heritage-gold-text" />
                 {t(
                   "تُحدَّث هذه السياسة بالتوازي مع أي تعديل على ملفات الموقع.",
                   "This policy updates in parallel with any change to the website's files."
@@ -110,7 +110,7 @@ export default function CookiePolicyPage() {
             </div>
 
             <div className="text-center">
-              <Link to="/" className="text-heritage-gold hover:underline text-sm font-semibold">
+              <Link to="/" className="text-heritage-gold-text hover:underline text-sm font-semibold">
                 {t("العودة إلى الرئيسية", "Back to home")}
               </Link>
             </div>

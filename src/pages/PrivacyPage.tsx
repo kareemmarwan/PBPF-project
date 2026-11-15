@@ -101,13 +101,13 @@ export default function PrivacyPage() {
                 )}{" "}
                 <a
                   href={`mailto:${settings.contactEmail}`}
-                  className="text-heritage-gold hover:underline"
+                  className="text-heritage-gold-text hover:underline"
                   dir="ltr"
                 >
                   {settings.contactEmail}
                 </a>{" "}
                 {t("أو عبر", "or via")}{" "}
-                <Link to="/contact" className="text-heritage-gold hover:underline">
+                <Link to="/contact" className="text-heritage-gold-text hover:underline">
                   {t("نموذج التواصل", "the contact form")}
                 </Link>
                 .

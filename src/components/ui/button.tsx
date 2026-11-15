@@ -18,7 +18,7 @@ const buttonVariants = cva(
         // Heritage specific variants
         heritage: "bg-gradient-hero text-primary-foreground shadow-heritage hover:shadow-heritage-elevated hover:scale-[1.02]",
         gold: "bg-heritage-gold text-foreground font-bold shadow-gold hover:shadow-heritage-elevated hover:scale-[1.02]",
-        "heritage-outline": "border-2 border-heritage-gold bg-transparent text-heritage-gold hover:bg-heritage-gold hover:text-foreground",
+        "heritage-outline": "border-2 border-heritage-gold bg-transparent text-heritage-gold-text hover:bg-heritage-gold hover:text-foreground",
         "hero-primary": "bg-heritage-gold text-foreground font-bold shadow-gold hover:shadow-heritage-elevated hover:scale-[1.02] px-8",
         "hero-secondary": "bg-primary-foreground/10 backdrop-blur-sm text-primary-foreground border border-primary-foreground/30 hover:bg-primary-foreground/20",
       },

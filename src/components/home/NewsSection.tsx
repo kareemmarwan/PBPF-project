@@ -21,7 +21,7 @@ export function NewsSection() {
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-foreground">
               {t("مستجدات", "Foundation")}{" "}
-              <span className="text-heritage-gold">{t("المؤسسة", "Updates")}</span>
+              <span className="text-heritage-gold-text">{t("المؤسسة", "Updates")}</span>
             </h2>
           </div>
           <Button variant="heritage-outline" asChild>
@@ -43,7 +43,7 @@ export function NewsSection() {
             >
               <CardContent className="p-6 space-y-4">
                 <div className="flex items-center gap-3">
-                  <span className="px-3 py-1 bg-heritage-gold/10 text-heritage-gold text-xs font-semibold rounded-full">
+                  <span className="px-3 py-1 bg-heritage-gold/10 text-heritage-gold-text text-xs font-semibold rounded-full">
                     {language === "ar" ? item.categoryAr : item.categoryEn}
                   </span>
                   <span className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -59,7 +59,7 @@ export function NewsSection() {
                 </p>
                 <Link
                   to="/news"
-                  className="inline-flex items-center gap-2 text-heritage-gold text-sm font-semibold hover:gap-3 transition-all"
+                  className="inline-flex items-center gap-2 text-heritage-gold-text text-sm font-semibold hover:gap-3 transition-all"
                 >
                   {t("اقرأ المزيد", "Read More")}
                   <Arrow className="w-4 h-4" />

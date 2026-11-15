@@ -131,7 +131,7 @@ export function CookieConsent() {
             </li>
           </ul>
           <div className="-mt-1">
-            <Link to="/cookies" className="text-sm text-heritage-gold hover:underline font-medium">
+            <Link to="/cookies" className="text-sm text-heritage-gold-text hover:underline font-medium">
               {t("الاطلاع على سياسة الكوكيز الكاملة", "Read the full cookie policy")}
             </Link>
           </div>

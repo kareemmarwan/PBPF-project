@@ -20,4 +20,10 @@ export const siteConfig = {
     phoneDisplay: import.meta.env.VITE_CONTACT_PHONE ?? "+966 50 000 0000",
     email: import.meta.env.VITE_CONTACT_EMAIL ?? "info@arabheritage.org",
   },
+  social: {
+    facebook: import.meta.env.VITE_SOCIAL_FACEBOOK ?? "",
+    twitter: import.meta.env.VITE_SOCIAL_TWITTER ?? "",
+    instagram: import.meta.env.VITE_SOCIAL_INSTAGRAM ?? "",
+    youtube: import.meta.env.VITE_SOCIAL_YOUTUBE ?? "",
+  },
 };

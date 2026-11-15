@@ -53,6 +53,7 @@ export default function GalleryPage() {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
+                aria-pressed={activeCategory === category}
                 className={`px-6 py-2 rounded-full font-medium transition-all ${
                   activeCategory === category
                     ? "bg-heritage-gold text-foreground"

@@ -64,6 +64,7 @@ export default {
         },
         heritage: {
           gold: "hsl(var(--heritage-gold))",
+          "gold-text": "hsl(var(--heritage-gold-text))",
           "gold-light": "hsl(var(--heritage-gold-light))",
           wine: "hsl(var(--heritage-wine))",
           "wine-light": "hsl(var(--heritage-wine-light))",

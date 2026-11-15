@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Heart, Copy, Check, CreditCard, Coins, ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSettings } from "@/lib/content";
 import bakeryImage from "@/assets/project-bakery.jpg";
@@ -343,8 +344,15 @@ export function DonationSection() {
                       </Button>
                       <p className="text-xs text-primary-foreground/60 text-center">
                         {t(
-                          "أرسل المبلغ إلى العنوان أعلاه ثم أبلغنا عبر نموذج التواصل لتسجيل تبرعك وإرسال شهادة التقدير.",
-                          "Send the amount to the address above, then notify us via the contact form to register your donation and receive a certificate."
+                          "أرسل المبلغ إلى العنوان أعلاه ثم أبلغنا عبر",
+                          "Send the amount to the address above, then notify us via"
+                        )}{" "}
+                        <Link to="/contact" className="underline hover:text-heritage-gold">
+                          {t("نموذج التواصل", "the contact form")}
+                        </Link>{" "}
+                        {t(
+                          "لتسجيل تبرعك وإرسال شهادة التقدير.",
+                          "to register your donation and receive a certificate."
                         )}
                       </p>
                     </>

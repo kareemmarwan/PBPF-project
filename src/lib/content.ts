@@ -20,7 +20,7 @@ export interface ProjectDetail { id: string; titleAr: string; titleEn: string; d
 
 export interface GalleryItem { id: number; src: string; altAr: string; altEn: string; category: string; }
 export interface BookItem { id: number; titleAr: string; titleEn: string; descAr: string; descEn: string; year: string; pages: string; pdf: string; }
-export interface StoryItem { id: number; titleAr: string; titleEn: string; excerptAr: string; excerptEn: string; }
+export interface StoryItem { id: number; titleAr: string; titleEn: string; excerptAr: string; excerptEn: string; contentAr: string; contentEn: string; }
 export interface TestimonialItem { id: number; contentAr: string; contentEn: string; nameAr: string; nameEn: string; roleAr: string; roleEn: string; locationAr: string; locationEn: string; }
 export interface ImpactItem { id: number; icon: string; value: string; labelAr: string; labelEn: string; descAr: string; descEn: string; }
 export interface TeamMember { id: number; nameAr: string; nameEn: string; roleAr: string; roleEn: string; bioAr: string; bioEn: string; category: string; photo: string; sortIndex: number; }
@@ -152,9 +152,9 @@ const booksFallback: BookItem[] = [
 ];
 
 const storiesFallback: StoryItem[] = [
-  { id: 1, titleAr: "حكاية أم أحمد", titleEn: "Um Ahmed's Story", excerptAr: "أم أحمد، امرأة فقدت زوجها ونزحت مع أطفالها الخمسة، لكنها لم تفقد الأمل...", excerptEn: "Um Ahmed lost her husband and took refuge with her five children, yet never lost hope..." },
-  { id: 2, titleAr: "حلم محمد الصغير", titleEn: "Little Mohammed's Dream", excerptAr: "محمد طفل في الثامنة، حلمه أن يصبح طبيباً ليعالج أطفال بلده...", excerptEn: "Eight-year-old Mohammed dreams of becoming a doctor to treat the children of his homeland..." },
-  { id: 3, titleAr: "معلمة في المخيم", titleEn: "A Teacher in the Camp", excerptAr: "سارة معلمة لم تتوقف عن التدريس رغم النزوح، أنشأت فصلاً في خيمتها...", excerptEn: "Sara kept teaching despite displacement and opened a classroom in her tent..." },
+  { id: 1, titleAr: "حكاية أم أحمد", titleEn: "Um Ahmed's Story", excerptAr: "أم أحمد، امرأة فقدت زوجها ونزحت مع أطفالها الخمسة، لكنها لم تفقد الأمل...", excerptEn: "Um Ahmed lost her husband and took refuge with her five children, yet never lost hope...", contentAr: "أم أحمد، امرأة فقدت زوجها ونزحت مع أطفالها الخمسة، لكنها لم تفقد الأمل. ساعدتها المؤسسة بسلة غذائية شهرية وملابس لأطفالها، ثم أُلحق أكبر أبنائها ببرنامج كفالة الأيتام لتكمل دراسته. اليوم تقول: رجعت الحياة إلى بيتنا حين وجدنا من لا يتركوننا وحدها.", contentEn: "Um Ahmed lost her husband and took refuge with her five children, yet never lost hope. The foundation supported her with a monthly food basket and clothes for her children, then enrolled her eldest son in the orphan sponsorship program so he could continue his studies. Today she says: life returned to our home when we found people who did not leave us alone." },
+  { id: 2, titleAr: "حلم محمد الصغير", titleEn: "Little Mohammed's Dream", excerptAr: "محمد طفل في الثامنة، حلمه أن يصبح طبيباً ليعالج أطفال بلده...", excerptEn: "Eight-year-old Mohammed dreams of becoming a doctor to treat the children of his homeland...", contentAr: "محمد طفل في الثامنة، حلمه أن يصبح طبيباً ليعالج أطفال بلده. بعد أن كفلنا قُبضتَي النزوح، عاد إلى مدرسته حاملاً حقيبة ألوان ودفتراً يرسم فيه عيادة صغيرة. معلمته تقول إنه الأكثر حضوراً للصف، وأمه تقول إن الضحكة عادت إلى عينيه.", contentEn: "Eight-year-old Mohammed dreams of becoming a doctor to treat the children of his homeland. After we sponsored him through displacement, he returned to school with a pencil case and a notebook where he draws a small clinic. His teacher says he is the most present in class, and his mother says the smile returned to his eyes." },
+  { id: 3, titleAr: "معلمة في المخيم", titleEn: "A Teacher in the Camp", excerptAr: "سارة معلمة لم تتوقف عن التدريس رغم النزوح، أنشأت فصلاً في خيمتها...", excerptEn: "Sara kept teaching despite displacement and opened a classroom in her tent...", contentAr: "سارة معلمة لم تتوقف عن التدريس رغم النزوح، أنشأت فصلاً في خيمتها يضم عشرين طفلاً. زودناها بالمقاعد والكتب وحافظات القراءة، وربطنا صلاً صغيراً بشاحن شمسي ليكون ملجأ دافئاً في الشتاء. قالت في تقريرها: التعليم هو وطننا الأخير الذي لا يُهجَّر.", contentEn: "Sara kept teaching despite displacement and opened a classroom in her tent with twenty children. We supplied desks, books, and reading folders, and connected a small tent to a solar charger to make a warm shelter in winter. She wrote in her report: education is our last homeland that cannot be displaced." },
 ];
 
 const testimonialsFallback: TestimonialItem[] = [
@@ -310,6 +310,7 @@ export function useBooks(): BookItem[] {
       descEn: nf(row, "desc_en"),
       year: nf(row, "year"),
       pages: nf(row, "pages"),
+      pdf: nf(row, "pdf_url"),
     }),
     fallback: booksFallback,
   });
@@ -324,6 +325,8 @@ export function useStories(): StoryItem[] {
       titleEn: nf(row, "title_en"),
       excerptAr: nf(row, "excerpt_ar"),
       excerptEn: nf(row, "excerpt_en"),
+      contentAr: nf(row, "content_ar"),
+      contentEn: nf(row, "content_en"),
     }),
     fallback: storiesFallback,
   });
@@ -457,4 +460,143 @@ export function useSettings(): SettingsValues {
     if (filled[key]) result[key] = filled[key];
   });
   return result;
+}
+
+export interface AboutContent {
+  heroBadgeAr: string; heroBadgeEn: string;
+  heroTitleAr: string; heroTitleEn: string;
+  heroTitleAccentAr: string; heroTitleAccentEn: string;
+  heroSubtitleAr: string; heroSubtitleEn: string;
+  storyBadgeAr: string; storyBadgeEn: string;
+  storyTitleAr: string; storyTitleEn: string;
+  storyTitleAccentAr: string; storyTitleAccentEn: string;
+  storyPara1Ar: string; storyPara1En: string;
+  storyPara2Ar: string; storyPara2En: string;
+  storyImageUrl: string; storyImageBadgeAr: string; storyImageBadgeEn: string;
+  stat1Value: string; stat1LabelAr: string; stat1LabelEn: string;
+  stat2Value: string; stat2LabelAr: string; stat2LabelEn: string;
+  stat3Value: string; stat3LabelAr: string; stat3LabelEn: string;
+  missionAr: string; missionEn: string;
+  visionAr: string; visionEn: string;
+}
+
+const aboutFallback: AboutContent = {
+  heroBadgeAr: "تعرف علينا",
+  heroBadgeEn: "About Us",
+  heroTitleAr: "من",
+  heroTitleEn: "About",
+  heroTitleAccentAr: "نحن",
+  heroTitleAccentEn: "Us",
+  heroSubtitleAr: "مؤسسة جسور السلام الفلسطينية هي مؤسسة ثقافية وإنسانية تسعى لخدمة المجتمع وإحياء التراث العربي",
+  heroSubtitleEn: "The Palestinian Bridges of Peace Foundation for Relief and Development is a cultural and humanitarian organization striving to serve the community and revive Arab heritage",
+  storyBadgeAr: "قصتنا",
+  storyBadgeEn: "Our Story",
+  storyTitleAr: "بدأت الحكاية",
+  storyTitleEn: "It Started",
+  storyTitleAccentAr: "بجوارٍ واحد",
+  storyTitleAccentEn: "With One Neighbor",
+  storyPara1Ar: "وُلدت المؤسسة عام 2019 من مبادرة تطوعية صغيرة انطلقت على يد مجموعة من شباب الرياض، بإيمان أن لا يبقى جارٌ جائعاً، حين بدأ الخبز الطازج والسلال الغذائية يُوزَّع بهدوء من بابٍ إلى باب. لم يكن العملُ حينها خطةً مفصّلة، بل إجابة طبيعية لسؤال بسيط: من يمدّ يد العون حين يغيب الجميع؟",
+  storyPara1En: "The foundation was born in 2019 from a small volunteer initiative led by a group of young people in Riyadh, determined that no neighbor should go hungry, as fresh bread and food baskets were quietly delivered door to door. There was no elaborate plan at first, just a natural answer to a simple question: who lends a hand when everyone else is gone?",
+  storyPara2Ar: "مع نمو الحاجة تحوّلت المبادرة إلى مؤسسة معتمدة تجمع بين العمل الإنساني وإحياء التراث العربي، فأصبحت خدماتها تصل اليوم إلى أكثر من 10,000 مستفيد عبر أكثر من 15 مشروعاً تشمل فرن الخير وتكية الطعام وكفالة الأيتام والمنح الدراسية، وتدخل منازل الآلاف من الأسر بكرامة.",
+  storyPara2En: "As needs grew, the initiative grew into a licensed foundation that combines humanitarian work with reviving Arab heritage. Its services now reach over 10,000 beneficiaries through 15+ projects, from Bread of Goodness to the Community Kitchen, orphan sponsorship, and scholarships, entering thousands of homes with dignity.",
+  storyImageUrl: "",
+  storyImageBadgeAr: "من ميدان العمل منذ 2019",
+  storyImageBadgeEn: "In the field since 2019",
+  stat1Value: "2019",
+  stat1LabelAr: "سنة التأسيس",
+  stat1LabelEn: "Founded",
+  stat2Value: "15+",
+  stat2LabelAr: "مشروعاً فعالاً",
+  stat2LabelEn: "Active projects",
+  stat3Value: "10,000+",
+  stat3LabelAr: "مستفيد",
+  stat3LabelEn: "Beneficiaries",
+  missionAr: "تقديم خدمات إنسانية متميزة للمحتاجين والأيتام، والمساهمة في الحفاظ على التراث العربي الأصيل من خلال مشاريع مستدامة تحقق الأثر الإيجابي في المجتمع.",
+  missionEn: "Providing distinguished humanitarian services to the needy and orphans, and contributing to preserving authentic Arab heritage through sustainable projects that create a positive impact on society.",
+  visionAr: "أن نكون المؤسسة الرائدة في العمل الإنساني والثقافي، ونموذجاً يحتذى به في الشفافية والفاعلية والاستدامة.",
+  visionEn: "To be the leading organization in humanitarian and cultural work, and a role model in transparency, effectiveness, and sustainability.",
+};
+
+export function useAbout(): AboutContent {
+  const query = useQuery({
+    queryKey: ["content", "about_page"],
+    enabled: isSupabaseConfigured,
+    queryFn: async () => {
+      const sb = safeSupabase();
+      if (!sb) return null;
+      const { data, error } = await sb.from("about_page").select("*").eq("id", 1).maybeSingle();
+      if (error || !data) return null;
+      const row = data as unknown as AdminRow;
+      return {
+        heroBadgeAr: nf(row, "hero_badge_ar"),
+        heroBadgeEn: nf(row, "hero_badge_en"),
+        heroTitleAr: nf(row, "hero_title_ar"),
+        heroTitleEn: nf(row, "hero_title_en"),
+        heroTitleAccentAr: nf(row, "hero_title_accent_ar"),
+        heroTitleAccentEn: nf(row, "hero_title_accent_en"),
+        heroSubtitleAr: nf(row, "hero_subtitle_ar"),
+        heroSubtitleEn: nf(row, "hero_subtitle_en"),
+        storyBadgeAr: nf(row, "story_badge_ar"),
+        storyBadgeEn: nf(row, "story_badge_en"),
+        storyTitleAr: nf(row, "story_title_ar"),
+        storyTitleEn: nf(row, "story_title_en"),
+        storyTitleAccentAr: nf(row, "story_title_accent_ar"),
+        storyTitleAccentEn: nf(row, "story_title_accent_en"),
+        storyPara1Ar: nf(row, "story_para1_ar"),
+        storyPara1En: nf(row, "story_para1_en"),
+        storyPara2Ar: nf(row, "story_para2_ar"),
+        storyPara2En: nf(row, "story_para2_en"),
+        storyImageUrl: nf(row, "story_image_url"),
+        storyImageBadgeAr: nf(row, "story_image_badge_ar"),
+        storyImageBadgeEn: nf(row, "story_image_badge_en"),
+        stat1Value: nf(row, "stat1_value"),
+        stat1LabelAr: nf(row, "stat1_label_ar"),
+        stat1LabelEn: nf(row, "stat1_label_en"),
+        stat2Value: nf(row, "stat2_value"),
+        stat2LabelAr: nf(row, "stat2_label_ar"),
+        stat2LabelEn: nf(row, "stat2_label_en"),
+        stat3Value: nf(row, "stat3_value"),
+        stat3LabelAr: nf(row, "stat3_label_ar"),
+        stat3LabelEn: nf(row, "stat3_label_en"),
+        missionAr: nf(row, "mission_ar"),
+        missionEn: nf(row, "mission_en"),
+        visionAr: nf(row, "vision_ar"),
+        visionEn: nf(row, "vision_en"),
+      } satisfies AboutContent;
+    },
+  });
+  if (!query.data) return aboutFallback;
+  const filled = query.data;
+  const result: AboutContent = { ...aboutFallback };
+  (Object.keys(aboutFallback) as (keyof AboutContent)[]).forEach((key) => {
+    if (filled[key]) result[key] = filled[key];
+  });
+  return result;
+}
+
+export interface AboutValue { id: number; icon: string; titleAr: string; titleEn: string; descAr: string; descEn: string; }
+
+const aboutValuesFallback: AboutValue[] = [
+  { id: 1, icon: "Heart", titleAr: "الإنسانية", titleEn: "Humanity", descAr: "نؤمن بأن كل إنسان يستحق حياة كريمة ونسعى لتحقيق ذلك", descEn: "We believe every person deserves a dignified life, and we strive to make that a reality" },
+  { id: 2, icon: "Target", titleAr: "الشفافية", titleEn: "Transparency", descAr: "نلتزم بالوضوح التام في جميع أعمالنا وتقاريرنا المالية", descEn: "We are committed to full clarity in all our work and financial reports" },
+  { id: 3, icon: "Eye", titleAr: "الاستدامة", titleEn: "Sustainability", descAr: "نركز على المشاريع المستدامة التي تحقق أثراً طويل المدى", descEn: "We focus on sustainable projects that create long-term impact" },
+  { id: 4, icon: "Users", titleAr: "التعاون", titleEn: "Collaboration", descAr: "نؤمن بقوة العمل الجماعي والشراكات المجتمعية", descEn: "We believe in the power of teamwork and community partnerships" },
+];
+
+export function useAboutValues(): AboutValue[] {
+  return useContent<AboutValue>({
+    table: "about_values",
+    order: "sort_index",
+    mandatoryFallback: true,
+    map: (row) => ({
+      id: row.id,
+      icon: nf(row, "icon") || "Heart",
+      titleAr: nf(row, "title_ar"),
+      titleEn: nf(row, "title_en"),
+      descAr: nf(row, "desc_ar"),
+      descEn: nf(row, "desc_en"),
+    }),
+    filter: (value) => Boolean(value.titleAr || value.titleEn),
+    fallback: aboutValuesFallback,
+  });
 }

@@ -69,7 +69,7 @@ export default function ProjectsPage() {
                         <h2 className="text-3xl font-bold text-foreground mb-2">
                           {language === "ar" ? project.titleAr : project.titleEn}
                         </h2>
-                        <p className="text-sm text-heritage-gold">
+                        <p className="text-sm text-heritage-gold-text">
                           {language === "ar" ? project.titleEn : project.titleAr}
                         </p>
                       </div>
@@ -79,7 +79,7 @@ export default function ProjectsPage() {
                       <div className="grid grid-cols-3 gap-4">
                         {project.stats.map((stat, i) => (
                           <div key={i} className="text-center p-4 bg-muted rounded-xl">
-                            <div className="text-2xl font-bold text-heritage-gold">
+                            <div className="text-2xl font-bold text-heritage-gold-text">
                               {stat.value}
                             </div>
                             <div className="text-xs text-muted-foreground mt-1">

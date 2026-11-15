@@ -17,7 +17,7 @@ export function ImpactSection() {
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-foreground">
             {t("أرقام تحكي", "Numbers That Tell")}{" "}
-            <span className="text-heritage-gold">{t("قصص نجاح", "Success Stories")}</span>
+            <span className="text-heritage-gold-text">{t("قصص نجاح", "Success Stories")}</span>
           </h2>
           <p className="text-muted-foreground text-lg">
             {t(
@@ -37,7 +37,7 @@ export function ImpactSection() {
               className="group text-center p-6 rounded-2xl bg-card border border-border hover:border-heritage-gold/30 hover:shadow-heritage transition-all duration-300 animate-fade-up"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-heritage-gold/10 text-heritage-gold mb-4 group-hover:bg-heritage-gold group-hover:text-foreground transition-all duration-300">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-heritage-gold/10 text-heritage-gold-text mb-4 group-hover:bg-heritage-gold group-hover:text-foreground transition-all duration-300">
                 <Icon className="w-7 h-7" />
               </div>
               <div className="text-2xl sm:text-3xl font-bold text-foreground mb-1">

@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { Heart, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSettings } from "@/lib/content";
+import { siteConfig } from "@/config/site";
+
 const quickLinks = [
   { name: "الرئيسية", nameEn: "Home", href: "/" },
   { name: "من نحن", nameEn: "About Us", href: "/about" },
@@ -17,11 +19,11 @@ const projectLinks = [
 ];
 
 const socialLinks = [
-  { icon: Facebook, href: "#", label: "Facebook" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Youtube, href: "#", label: "Youtube" },
-];
+  { icon: Facebook, href: siteConfig.social.facebook, label: "Facebook" },
+  { icon: Twitter, href: siteConfig.social.twitter, label: "Twitter (X)" },
+  { icon: Instagram, href: siteConfig.social.instagram, label: "Instagram" },
+  { icon: Youtube, href: siteConfig.social.youtube, label: "YouTube" },
+].filter((social) => Boolean(social.href));
 
 export function Footer() {
   const { t, language, isRTL } = useLanguage();
@@ -53,6 +55,8 @@ export function Footer() {
                 <a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noreferrer"
                   className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-heritage-gold hover:text-foreground transition-all duration-300"
                   aria-label={social.label}
                 >

@@ -82,6 +82,8 @@ create table if not exists public.stories (
   title_en text default '',
   excerpt_ar text default '',
   excerpt_en text default '',
+  content_ar text default '',
+  content_en text default '',
   created_at timestamptz default now()
 );
 
@@ -178,7 +180,57 @@ create table if not exists public.site_settings (
   updated_at timestamptz default now()
 );
 
+create table if not exists public.about_page (
+  id int primary key default 1 check (id = 1),
+  hero_badge_ar text default '',
+  hero_badge_en text default '',
+  hero_title_ar text default '',
+  hero_title_en text default '',
+  hero_title_accent_ar text default '',
+  hero_title_accent_en text default '',
+  hero_subtitle_ar text default '',
+  hero_subtitle_en text default '',
+  story_badge_ar text default '',
+  story_badge_en text default '',
+  story_title_ar text default '',
+  story_title_en text default '',
+  story_title_accent_ar text default '',
+  story_title_accent_en text default '',
+  story_para1_ar text default '',
+  story_para1_en text default '',
+  story_para2_ar text default '',
+  story_para2_en text default '',
+  story_image_url text,
+  story_image_badge_ar text default '',
+  story_image_badge_en text default '',
+  stat1_value text default '',
+  stat1_label_ar text default '',
+  stat1_label_en text default '',
+  stat2_value text default '',
+  stat2_label_ar text default '',
+  stat2_label_en text default '',
+  stat3_value text default '',
+  stat3_label_ar text default '',
+  stat3_label_en text default '',
+  mission_ar text default '',
+  mission_en text default '',
+  vision_ar text default '',
+  vision_en text default ''
+);
+
+create table if not exists public.about_values (
+  id bigint generated always as identity primary key,
+  icon text default 'Heart',
+  title_ar text default '',
+  title_en text default '',
+  desc_ar text default '',
+  desc_en text default '',
+  sort_index int default 0,
+  created_at timestamptz default now()
+);
+
 insert into public.site_settings (id) values (1) on conflict (id) do nothing;
+insert into public.about_page (id) values (1) on conflict (id) do nothing;
 
 -- ===== RLS + الصلاحيات =====
 alter table public.news enable row level security;
@@ -193,6 +245,8 @@ alter table public.hero_images enable row level security;
 alter table public.hero_stats enable row level security;
 alter table public.messages enable row level security;
 alter table public.site_settings enable row level security;
+alter table public.about_page enable row level security;
+alter table public.about_values enable row level security;
 
 create policy "content public read" on public.news for select using (true);
 create policy "content public read" on public.projects for select using (true);
@@ -205,6 +259,8 @@ create policy "content public read" on public.team_members for select using (tru
 create policy "content public read" on public.hero_images for select using (true);
 create policy "content public read" on public.hero_stats for select using (true);
 create policy "content public read" on public.site_settings for select using (true);
+create policy "content public read" on public.about_page for select using (true);
+create policy "content public read" on public.about_values for select using (true);
 
 create policy "content admin all" on public.news for all to authenticated using (true) with check (true);
 create policy "content admin all" on public.projects for all to authenticated using (true) with check (true);
@@ -217,6 +273,8 @@ create policy "content admin all" on public.team_members for all to authenticate
 create policy "content admin all" on public.hero_images for all to authenticated using (true) with check (true);
 create policy "content admin all" on public.hero_stats for all to authenticated using (true) with check (true);
 create policy "content admin all" on public.site_settings for all to authenticated using (true) with check (true);
+create policy "content admin all" on public.about_page for all to authenticated using (true) with check (true);
+create policy "content admin all" on public.about_values for all to authenticated using (true) with check (true);
 
 create policy "messages anon insert" on public.messages for insert to anon with check (true);
 create policy "messages admin all" on public.messages for all to authenticated using (true) with check (true);
@@ -269,9 +327,43 @@ alter table public.site_settings add column if not exists hero_title_line2_en te
 alter table public.site_settings add column if not exists hero_subtitle_ar text default '';
 alter table public.site_settings add column if not exists hero_subtitle_en text default '';
 
+alter table public.stories add column if not exists content_ar text default '';
+alter table public.stories add column if not exists content_en text default '';
+
+create table if not exists public.about_page (
+  id int primary key default 1 check (id = 1),
+  hero_badge_ar text default '', hero_badge_en text default '',
+  hero_title_ar text default '', hero_title_en text default '',
+  hero_title_accent_ar text default '', hero_title_accent_en text default '',
+  hero_subtitle_ar text default '', hero_subtitle_en text default '',
+  story_badge_ar text default '', story_badge_en text default '',
+  story_title_ar text default '', story_title_en text default '',
+  story_title_accent_ar text default '', story_title_accent_en text default '',
+  story_para1_ar text default '', story_para1_en text default '',
+  story_para2_ar text default '', story_para2_en text default '',
+  story_image_url text, story_image_badge_ar text default '', story_image_badge_en text default '',
+  stat1_value text default '', stat1_label_ar text default '', stat1_label_en text default '',
+  stat2_value text default '', stat2_label_ar text default '', stat2_label_en text default '',
+  stat3_value text default '', stat3_label_ar text default '', stat3_label_en text default '',
+  mission_ar text default '', mission_en text default '',
+  vision_ar text default '', vision_en text default ''
+);
+insert into public.about_page (id) values (1) on conflict (id) do nothing;
+
+create table if not exists public.about_values (
+  id bigint generated always as identity primary key,
+  icon text default 'Heart',
+  title_ar text default '', title_en text default '',
+  desc_ar text default '', desc_en text default '',
+  sort_index int default 0,
+  created_at timestamptz default now()
+);
+
 alter table public.team_members enable row level security;
 alter table public.hero_images enable row level security;
 alter table public.hero_stats enable row level security;
+alter table public.about_page enable row level security;
+alter table public.about_values enable row level security;
 
 do $$ begin
   create policy "content public read" on public.team_members for select using (true);
@@ -280,6 +372,10 @@ do $$ begin
   create policy "content admin all" on public.team_members for all to authenticated using (true) with check (true);
   create policy "content admin all" on public.hero_images for all to authenticated using (true) with check (true);
   create policy "content admin all" on public.hero_stats for all to authenticated using (true) with check (true);
+  create policy "content public read" on public.about_page for select using (true);
+  create policy "content public read" on public.about_values for select using (true);
+  create policy "content admin all" on public.about_page for all to authenticated using (true) with check (true);
+  create policy "content admin all" on public.about_values for all to authenticated using (true) with check (true);
 exception when duplicate_object then null; end $$;
 ```
 

@@ -13,6 +13,8 @@ import {
   Droplets,
   Pill,
   Package,
+  Target,
+  Eye,
   type LucideIcon,
 } from "lucide-react";
 
@@ -21,6 +23,8 @@ export const STAT_ICON_OPTIONS: string[] = [
   "HandHeart",
   "HeartHandshake",
   "Heart",
+  "Target",
+  "Eye",
   "CalendarDays",
   "Utensils",
   "GraduationCap",
@@ -38,6 +42,8 @@ export const statIconMap: Record<string, LucideIcon> = {
   HandHeart,
   HeartHandshake,
   Heart,
+  Target,
+  Eye,
   CalendarDays,
   Utensils,
   GraduationCap,

@@ -129,7 +129,7 @@ export default function ContactPage() {
               <div className="space-y-4">
                 <Card variant="elevated" className="p-6">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-heritage-gold/10 text-heritage-gold flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-heritage-gold/10 text-heritage-gold-text flex items-center justify-center flex-shrink-0">
                       <MapPin className="w-6 h-6" />
                     </div>
                     <div>
@@ -142,14 +142,14 @@ export default function ContactPage() {
                 </Card>
                 <Card variant="elevated" className="p-6">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-heritage-gold/10 text-heritage-gold flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-heritage-gold/10 text-heritage-gold-text flex items-center justify-center flex-shrink-0">
                       <Phone className="w-6 h-6" />
                     </div>
                     <div>
                       <h3 className="font-bold text-foreground">{t("الهاتف", "Phone")}</h3>
                       <a
                         href={`tel:${settings.contactPhone}`}
-                        className="text-muted-foreground text-sm hover:text-heritage-gold"
+                        className="text-muted-foreground text-sm hover:text-heritage-gold-text"
                         dir="ltr"
                       >
                         {settings.contactPhoneDisplay}
@@ -159,14 +159,14 @@ export default function ContactPage() {
                 </Card>
                 <Card variant="elevated" className="p-6">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-heritage-gold/10 text-heritage-gold flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-heritage-gold/10 text-heritage-gold-text flex items-center justify-center flex-shrink-0">
                       <Mail className="w-6 h-6" />
                     </div>
                     <div>
                       <h3 className="font-bold text-foreground">{t("البريد الإلكتروني", "Email Address")}</h3>
                       <a
                         href={`mailto:${settings.contactEmail}`}
-                        className="text-muted-foreground text-sm hover:text-heritage-gold"
+                        className="text-muted-foreground text-sm hover:text-heritage-gold-text"
                       >
                         {settings.contactEmail}
                       </a>
